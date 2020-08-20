@@ -34,24 +34,24 @@ const createWindow = () => {
           submenu: [
               {label:'Customer Information',
 				  click() {
-					  openCustomerWindow()
+					  openCustomerWindow();
 				  },
 				  accelerator: 'F5'
 			  },
               {label:'Garments list',
 				  click() {
-					  openGarmentsWindow()
+					  openGarmentsWindow();
 				  },
 				  accelerator: 'F3'
 			  },
               {label:'Exit',
 				  click() {
-					  app.quit()
+					  app.quit();
 				  }
 			  }
           ]
       }
-  ])
+  ]);
   Menu.setApplicationMenu(menu);
   
 };
@@ -96,8 +96,8 @@ function openOrdersWindow()
 	
 	if (ordersWindow) 
 	{
-		ordersWindow.focus()
-		return
+		ordersWindow.focus();
+		return;
 	}
 
 	ordersWindow = new BrowserWindow({
@@ -105,13 +105,13 @@ function openOrdersWindow()
 		width: 600,
 		title: '',
 		fullscreenable: false
-	})
+	});
 
   ordersWindow.loadFile(path.join(__dirname, 'views/customers/index.html'));
 
 	ordersWindow.on('closed', function() {
-		ordersWindow = null
-	})
+		ordersWindow = null;
+	});
 }
 
 function openCustomerWindow() 
@@ -120,8 +120,8 @@ function openCustomerWindow()
 	
 	if (customerWindow) 
 	{
-		customerWindow.focus()
-		return
+		customerWindow.focus();
+		return;
 	}
 
 	customerWindow = new BrowserWindow({
@@ -129,22 +129,22 @@ function openCustomerWindow()
 		width: 600,
 		title: '',
 		fullscreenable: false
-	})
+	});
 
 	customerWindow.loadFile(path.join(__dirname, 'views/customers/index.html'));
 
 	customerWindow.on('closed', function() {
-		customerWindow = null
-	})
+		customerWindow = null;
+	});
 }
 
 function openGarmentsWindow() 
 {
-	var newWindow = null
+	var newWindow = null;
 	if (newWindow) 
 	{
-		newWindow.focus()
-		return
+		newWindow.focus();
+		return;
 	}
 
 	newWindow = new BrowserWindow({
@@ -152,13 +152,13 @@ function openGarmentsWindow()
 		width: 600,
 		title: '',
 		fullscreenable: false
-	})
+	});
 
 	newWindow.loadFile(path.join(__dirname, 'views/garments/index.html'));
 
 	newWindow.on('closed', function() {
-		newWindow = null
-	})
+		newWindow = null;
+	});
 }
 
 // Detectar si un botón de la barra de herramientas ha sido presionado e invocar la función necesaria
@@ -166,14 +166,14 @@ function openGarmentsWindow()
 ipcMain.on('open-orders', function()
 {
     openOrdersWindow()
-})
+});
 
 ipcMain.on('open-users', function()
 {
     openCustomerWindow()
-})
+});
 
 ipcMain.on('open-garments', function()
 {
     openGarmentsWindow()
-})
+});
