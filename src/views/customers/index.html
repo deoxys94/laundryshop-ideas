@@ -2,16 +2,25 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="Content-Security-Policy" content="script-src 'sha256-N6194bBolX+7kWFnU5GvkgkdBrCuykw0H0b+YvVkGx0=' 'self';" />
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-L5dSlE5wbECrSUOE8kQsfCbuEldk4WDmQp5O8vMrR9g='">
 		
 		<title>title</title>
-		<link rel="stylesheet" href="style.css">
 		<link href="../../css/bootstrap.css" rel="stylesheet">
 		
 		<style>
 			body 
 			{ 
 				padding-top: 70px; 
+			}
+
+			nav .navbar-nav li a
+			{
+				color: #FFFFFF !important;
+			}
+			
+			nav .navbar-nav li a:hover
+			{
+				color: #C5D6C7 !important;
 			}
 		</style>
 		
@@ -32,7 +41,7 @@
 				<div class="collapse navbar-collapse" id="navbarButtons">
 					<!-- Botones que van en la barra de herramientas -->
 					<ul class="navbar-nav mr-auto">
-						<li class="nav-item active">
+						<li class="nav-item">
 							<a class="nav-link" href="">
 								<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 								  <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
@@ -42,7 +51,7 @@
 								New customer
 							</a>
 						</li>
-						<li class="nav-item active">
+						<li class="nav-item">
 							<a class="nav-link" href="">
 								<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-credit-card-2-front" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 									<path fill-rule="evenodd" d="M14 3H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z"/>
@@ -60,69 +69,15 @@
 		</header>
 		<!-- page content -->
 		
-		<div class="container">
-
-			<div class="row">
-				<!-- Dentro de este van los "cols" necesarios -->
-				<h2>Customer management</h2>
-				<table class="table">
-					<thead class="thead-dark">
-						<tr>
-							<th scope="col">#</th>
-							<th scope="col">Name</th>
-							<th scope="col">Membership</th>
-							<th scope="col">Balance</th>
-							<th scope="col">Actions</th>
-							<th scope="col"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-						<th scope="row">1</th>
-						<td>Doe, John</td>
-						<td>Silver Membership</td>
-						<td>1400 NTD</td>
-						<td><button type="button" class="btn btn-primary">Edit</button></td>
-						<td><button type="button" class="btn btn-danger">Delete</button></td>
-						</tr>
-						<tr>
-						<th scope="row">2</th>
-						<td>Doe, Jane</td>
-						<td>No membership</td>
-						<td>0</td>
-						<td><button type="button" class="btn btn-primary">Edit</button></td>
-						<td><button type="button" class="btn btn-danger">Delete</button></td>
-						</tr>
-						<tr>
-						<th scope="row">3</th>
-						<td>Roe, John</td>
-						<td>Gold Membership</td>
-						<td>2000 NTD</td>
-						<td><button type="button" class="btn btn-primary">Edit</button></td>
-						<td><button type="button" class="btn btn-danger">Delete</button></td>
-						</tr>
-					</tbody>
-				</table>
-								
-				<nav aria-label="Page navigation example">
-					<ul class="pagination">
-						<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">Next</a></li>
-					</ul>
-				</nav>
-				<!-- Dentro de este van los "cols" necesarios -->
-			</div>
+		<div id="container" class="container">
 
 		</div>
 		
 		<!-- page content -->
-		
-		<script src="../../js/jquery-3.5.1.min.js"></script>
-		<script src="../../js/popper.min.js"></script>
-		<script src="../../js/bootstrap.min.js"></script>
+		<script src="../../js/customers_index.js" integrity="sha384-J7/rJbCzFEkxN1OOJxOTL067AV3zqrcNcNydBvRl5jwqvd6tqz+MJz/J7f0aItJU"></script>		
+		<script> var $ = jQuery = require("jquery"); </script>
+		<script src="../../js/popper.min.js" integrity="sha384-uLHxgwX6ZvC6FoWIhzkulUpK8rYAiK30nm034ygkllTGvodI+uL6V5an1iTvrLIL"></script>
+		<script src="../../js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"></script>
 	</body>
 
 </html>

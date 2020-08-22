@@ -2,6 +2,8 @@
 
 const { app, BrowserWindow, Menu} = require('electron');
 const path = require('path');
+var knex = require('knex')({client: 'sqlite3', connection: {filename: "src/datos/msnMessenger.db"}});
+let mainWindow;
 
 const electron = require('electron'),
 ipcMain = electron.ipcMain;
@@ -13,7 +15,7 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1024,
     height: 600,
 	webPreferences: {
@@ -22,12 +24,12 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'views/index.html'));
+  mainWindow.loadFile(path.join(__dirname, 'views/customers/index.html'));
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
   
-  // Custom menu
+  //{Custom menu
   var menu = Menu.buildFromTemplate([
       {
           label: 'Menu',
@@ -53,7 +55,7 @@ const createWindow = () => {
       }
   ]);
   Menu.setApplicationMenu(menu);
-  
+  //}
 };
 
 // This method will be called when Electron has finished
@@ -82,13 +84,12 @@ app.on('activate', () => {
 // code. You can also put them in separate files and import them here.
 
 /*
- * 
- * Código personalizado 
- * 
+ * Código personalizado  
 */
 
-// Abrir ventanas
+//{ Código de la ventana principal de la aplicación 
 // Cada ventana debe tener su función propia para abrir y cerrar. El numero de variables indica la cantidad de instancias que se va a tener. Si solo se usa una variable, los atajos de teclado dejan de funcionar hasta que la ventana se cierre.
+
 
 function openOrdersWindow() 
 {
@@ -107,7 +108,7 @@ function openOrdersWindow()
 		fullscreenable: false
 	});
 
-  ordersWindow.loadFile(path.join(__dirname, 'views/customers/index.html'));
+  ordersWindow.loadFile(path.join(__dirname, 'views/orders/index.html'));
 
 	ordersWindow.on('closed', function() {
 		ordersWindow = null;
@@ -165,15 +166,27 @@ function openGarmentsWindow()
 
 ipcMain.on('open-orders', function()
 {
-    openOrdersWindow()
+  openOrdersWindow();
 });
 
 ipcMain.on('open-users', function()
 {
-    openCustomerWindow()
+    openCustomerWindow();
 });
 
 ipcMain.on('open-garments', function()
 {
-    openGarmentsWindow()
+    openGarmentsWindow();
 });
+//}
+
+//{ codigo de la sección de clientes
+ipcMain.on("customersIndexWindowLoaded", function()
+{
+  let resultado = knex.select().from("customer_list").where("deleted", 0);
+  resultado.then(function(rows){mainWindow.webContents.send("consultaListaUsuarios", rows);}).catch(function(error) {
+    console.error(error);
+  });
+}
+);
+//}

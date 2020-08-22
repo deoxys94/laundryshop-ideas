@@ -2,11 +2,10 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="Content-Security-Policy" content="script-src 'sha256-N6194bBolX+7kWFnU5GvkgkdBrCuykw0H0b+YvVkGx0=' 'self';" />
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-N6194bBolX+7kWFnU5GvkgkdBrCuykw0H0b+YvVkGx0='">
 		
 		<title>title</title>
-		<link rel="stylesheet" href="style.css">
-		<link href="../../css/bootstrap.css" rel="stylesheet">
+		<link href="../css/bootstrap.css" rel="stylesheet">
 		
 		<style>
 			body 
@@ -49,10 +48,10 @@
 		</div>
 		
 		<!-- page content -->
-		
-		<script src="../../js/jquery-3.5.1.min.js"></script>
-		<script src="../../js/popper.min.js"></script>
-		<script src="../../js/bootstrap.min.js"></script>
+		<script src="../js/renderer_scripts.js" integrity="sha384-wQJBYMRYqvNTyXy/C0RdfgueKDfUkC8fnZnyNntBUkAI+y8/a4JDWhLyd9+JYiyn"></script>		
+		<script>window.$ = window.jQuery = require('jquery');</script>
+		<script src="../js/popper.min.js" integrity="sha384-uLHxgwX6ZvC6FoWIhzkulUpK8rYAiK30nm034ygkllTGvodI+uL6V5an1iTvrLIL"></script>
+		<script src="../js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"></script>
 	</body>
 
 </html>
