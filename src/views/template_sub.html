@@ -2,16 +2,25 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="Content-Security-Policy" content="script-src 'sha256-N6194bBolX+7kWFnU5GvkgkdBrCuykw0H0b+YvVkGx0=' 'self';" />
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-N6194bBolX+7kWFnU5GvkgkdBrCuykw0H0b+YvVkGx0='">
 		
 		<title>title</title>
-		<link rel="stylesheet" href="style.css">
 		<link href="../../css/bootstrap.css" rel="stylesheet">
 		
 		<style>
 			body 
 			{ 
 				padding-top: 70px; 
+			}
+
+			nav .navbar-nav li a
+			{
+				color: #FFFFFF !important;
+			}
+			
+			nav .navbar-nav li a:hover
+			{
+				color: #C5D6C7 !important;
 			}
 		</style>
 		
@@ -50,9 +59,9 @@
 		
 		<!-- page content -->
 		
-		<script src="../../js/jquery-3.5.1.min.js"></script>
-		<script src="../../js/popper.min.js"></script>
-		<script src="../../js/bootstrap.min.js"></script>
+		<script> var $ = jQuery = require("jquery"); </script>
+		<script src="../../js/popper.min.js" integrity="uLHxgwX6ZvC6FoWIhzkulUpK8rYAiK30nm034ygkllTGvodI+uL6V5an1iTvrLIL"></script>
+		<script src="../../js/bootstrap.min.js" integrity="XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"></script>
 	</body>
 
 </html>
