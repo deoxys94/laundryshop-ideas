@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+		
+		<title>title</title>
+		<link href="../../css/bootstrap.css" rel="stylesheet">
+		
+		<style>
+			body 
+			{ 
+				padding-top: 70px; 
+			}
+
+			nav .navbar-nav li a
+			{
+				color: #FFFFFF !important;
+			}
+			
+			nav .navbar-nav li a:hover
+			{
+				color: #C5D6C7 !important;
+			}
+		</style>
+		
+	</head>
+
+	<body>
+		<header>
+			<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #1b5e20;" >
+				
+				<!-- Botón para mostrar los elementos en caso de que la ventana se redimensione -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarButtons" aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<!-- Botón para mostrar los elementos en caso de que la ventana se redimensione -->
+				
+				<a class="navbar-brand" href="#">Brand</a>
+				
+				<div class="collapse navbar-collapse" id="navbarButtons">
+					<!-- Botones que van en la barra de herramientas -->
+					
+					<!-- Botones que van en la barra de herramientas -->
+				</div>
+			</nav>
+		</header>
+		<!-- page content -->
+		
+		<div class="container">
+		<h2>Add new customer</h2>
+		
+			<form>
+				<div class="row">
+					
+					<div class="col">
+						<div class="form-group">
+							<label for="customerName">Name</label>
+							<input type="text" class="form-control" id="inputCustomerName" name="nombreCliente" required>
+						</div>
+					</div>
+					
+					<div class="col">
+						<div class="custom-control custom-radio">
+						  <input type="radio" id="tratamientoCliente1" name="tratamientoCliente" class="custom-control-input">
+						  <label class="custom-control-label" for="tratamientoCliente1">小姐</label>
+						</div>
+						<div class="custom-control custom-radio">
+						  <input type="radio" id="tratamientoCliente2" name="tratamientoCliente" class="custom-control-input">
+						  <label class="custom-control-label" for="tratamientoCliente2">先生</label>
+						</div>
+						<div class="custom-control custom-radio">
+						  <input type="radio" id="tratamientoCliente3" name="tratamientoCliente" class="custom-control-input">
+						  <label class="custom-control-label" for="tratamientoCliente3">-</label>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="customerAddress">Address</label>
+					<input type="text" class="form-control" id="customerAddress" name="direccionCliente">
+				</div>
+				<div class="form-group">
+					<label for="customerPhone">Phone Number</label>
+					<input type="email" class="form-control" id="customerPhone" name="telefonoCliente">
+				</div>
+
+				 <label for="membershipSelector">Select a membership type</label>
+				<select class="custom-select" id="membershipSelector" name="tipoMembresia" onchange="showMembershipBenefits(comboboxMembresias.options[comboboxMembresias.selectedIndex].value);">
+				</select>
+				
+				<div class="form-group row">
+					<label for="benefitsShow" class="col-sm-2 col-form-label">eCash</label>
+					<div class="col-sm-10">
+						<input type="text" readonly class="form-control-plaintext" id="benefitsShow" value="0">
+					</div>
+				</div>
+				
+				<button type="submit" class="btn btn-primary">Create customer</button>
+			</form>
+		
+		</div>
+		
+		<!-- page content -->
+		<script src="../../js/create_customer.js" integrity="sha384-kFOxneoc7SVB0PQZrQ117iRN/u184l4qGt+iNsNyL5IIjSZT4A14KzWULEeeB3NQ"></script>
+		<script> var $ = jQuery = require("jquery"); </script>
+		<script src="../../js/popper.min.js" integrity="sha384-uLHxgwX6ZvC6FoWIhzkulUpK8rYAiK30nm034ygkllTGvodI+uL6V5an1iTvrLIL"></script>
+		<script src="../../js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"></script>
+	</body>
+
+</html>

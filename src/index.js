@@ -24,7 +24,7 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'views/customers/index.html'));
+  mainWindow.loadFile(path.join(__dirname, 'views/customers/createCustomer.html'));
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -180,13 +180,27 @@ ipcMain.on('open-garments', function()
 });
 //}
 
-//{ codigo de la sección de clientes
+//{ codigo de la página principal de clientes
+
 ipcMain.on("customersIndexWindowLoaded", function()
 {
   let resultado = knex.select().from("customer_list").where("deleted", 0);
   resultado.then(function(rows){mainWindow.webContents.send("consultaListaUsuarios", rows);}).catch(function(error) {
     console.error(error);
   });
+}
+);
+//}
+
+//{ Código de la ventana para dar de alta un cliente
+ipcMain.on("createUserWindowLoaded", function()
+{
+  let resultado = knex.select("membershipID", "membershipName", "membershipBenefits").from("membership_catalogue").where("deleted", 0);
+  resultado.then(function(rows){mainWindow.webContents.send("catalogoMembresias", rows);}).catch(function(error) {
+    console.error(error);
+  });
+  
+  console.log(resultado);
 }
 );
 //}
