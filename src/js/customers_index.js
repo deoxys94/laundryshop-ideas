@@ -1,4 +1,6 @@
-var ipcCustomerIndex = require('electron').ipcRenderer;
+'use strict';
+
+let ipcCustomerIndex = require('electron').ipcRenderer;
 
 document.addEventListener("DOMContentLoaded", function()
     {

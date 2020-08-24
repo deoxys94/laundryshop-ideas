@@ -29,7 +29,8 @@ const createWindow = () => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
   
-  //{Custom menu
+  //#region menu personalizado
+
   var menu = Menu.buildFromTemplate([
       {
           label: 'Menu',
@@ -55,7 +56,7 @@ const createWindow = () => {
       }
   ]);
   Menu.setApplicationMenu(menu);
-  //}
+  //#endregion
 };
 
 // This method will be called when Electron has finished
@@ -87,7 +88,7 @@ app.on('activate', () => {
  * Código personalizado  
 */
 
-//{ Código de la ventana principal de la aplicación 
+//#region  Código de la ventana principal de la aplicación 
 // Cada ventana debe tener su función propia para abrir y cerrar. El numero de variables indica la cantidad de instancias que se va a tener. Si solo se usa una variable, los atajos de teclado dejan de funcionar hasta que la ventana se cierre.
 
 
@@ -178,9 +179,9 @@ ipcMain.on('open-garments', function()
 {
     openGarmentsWindow();
 });
-//}
+//#endregion
 
-//{ codigo de la página principal de clientes
+//#region  codigo de la página principal de clientes
 
 ipcMain.on("customersIndexWindowLoaded", function()
 {
@@ -190,17 +191,33 @@ ipcMain.on("customersIndexWindowLoaded", function()
   });
 }
 );
-//}
+//#endregion
 
-//{ Código de la ventana para dar de alta un cliente
+//#region  Código de la ventana para dar de alta un cliente
 ipcMain.on("createUserWindowLoaded", function()
 {
   let resultado = knex.select("membershipID", "membershipName", "membershipBenefits").from("membership_catalogue").where("deleted", 0);
   resultado.then(function(rows){mainWindow.webContents.send("catalogoMembresias", rows);}).catch(function(error) {
     console.error(error);
   });
-  
-  console.log(resultado);
 }
 );
-//}
+
+ipcMain.on("checkCurrentPrimaryKeyIndex", function()
+{
+  let resultado = knex.select("seq").from("sqlite_sequence").where("name", "customer_list");
+  resultado.then(function(rows){mainWindow.webContents.send("currentPrimaryKeyIndexChecked", rows);}).catch(function(error) {
+    console.error(error);
+  });
+}
+);
+
+ipcMain.on("customerInformation", function(event, informacion)
+{
+	let today = new Date();
+	let d = (today.getMonth()+1)+'/'+today.getDate()+'/'+today.getFullYear();
+
+	let insercion = knex("customer_list").insert({customerID: informacion[0], lastName: informacion[1][0], firstName: informacion[1][1], gender: informacion[2], phoneNumber: informacion[4], customerAddress: informacion[3], dateJoined: d.toString(), membershipType: parseInt(informacion[5]), membershipBalance: parseInt(informacion[6]), deleted: informacion[7]}).then(mainWindow.webContents.send("customerSucessfullyCreated")).catch((err) => { console.log( err); throw err });
+
+});
+//#endregion

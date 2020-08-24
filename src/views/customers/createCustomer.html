@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+		<!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-L5dSlE5wbECrSUOE8kQsfCbuEldk4WDmQp5O8vMrR9g='">-->
 		
 		<title>title</title>
 		<link href="../../css/bootstrap.css" rel="stylesheet">
@@ -40,7 +40,18 @@
 				
 				<div class="collapse navbar-collapse" id="navbarButtons">
 					<!-- Botones que van en la barra de herramientas -->
-					
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="index.html">
+								<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								  <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
+								  <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
+								  <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+								</svg>
+								Return
+							</a>
+						</li>
+					</ul>
 					<!-- Botones que van en la barra de herramientas -->
 				</div>
 			</nav>
@@ -48,6 +59,10 @@
 		<!-- page content -->
 		
 		<div class="container">
+
+		<div id="validationWarnings">
+		</div>
+
 		<h2>Add new customer</h2>
 		
 			<form>
@@ -56,21 +71,21 @@
 					<div class="col">
 						<div class="form-group">
 							<label for="customerName">Name</label>
-							<input type="text" class="form-control" id="inputCustomerName" name="nombreCliente" required>
+							<input type="text" class="form-control" id="inputCustomerName" name="nombreCliente">
 						</div>
 					</div>
 					
 					<div class="col">
 						<div class="custom-control custom-radio">
-						  <input type="radio" id="tratamientoCliente1" name="tratamientoCliente" class="custom-control-input">
+						  <input type="radio" id="tratamientoCliente1" name="tratamientoCliente" class="custom-control-input" value="小姐">
 						  <label class="custom-control-label" for="tratamientoCliente1">小姐</label>
 						</div>
 						<div class="custom-control custom-radio">
-						  <input type="radio" id="tratamientoCliente2" name="tratamientoCliente" class="custom-control-input">
+						  <input type="radio" id="tratamientoCliente2" name="tratamientoCliente" class="custom-control-input" value="先生">
 						  <label class="custom-control-label" for="tratamientoCliente2">先生</label>
 						</div>
 						<div class="custom-control custom-radio">
-						  <input type="radio" id="tratamientoCliente3" name="tratamientoCliente" class="custom-control-input">
+						  <input type="radio" id="tratamientoCliente3" name="tratamientoCliente" class="custom-control-input" value="-" checked>
 						  <label class="custom-control-label" for="tratamientoCliente3">-</label>
 						</div>
 					</div>
@@ -82,11 +97,11 @@
 				</div>
 				<div class="form-group">
 					<label for="customerPhone">Phone Number</label>
-					<input type="email" class="form-control" id="customerPhone" name="telefonoCliente">
+					<input type="tel" class="form-control" id="customerPhone" name="telefonoCliente">
 				</div>
 
 				 <label for="membershipSelector">Select a membership type</label>
-				<select class="custom-select" id="membershipSelector" name="tipoMembresia" onchange="showMembershipBenefits(comboboxMembresias.options[comboboxMembresias.selectedIndex].value);">
+				<select class="custom-select" id="membershipSelector" name="tipoMembresia">
 				</select>
 				
 				<div class="form-group row">
@@ -95,14 +110,33 @@
 						<input type="text" readonly class="form-control-plaintext" id="benefitsShow" value="0">
 					</div>
 				</div>
-				
-				<button type="submit" class="btn btn-primary">Create customer</button>
 			</form>
+
+			<button class="btn btn-primary" id="sendDataButton">Create customer</button>
 		
 		</div>
 		
 		<!-- page content -->
-		<script src="../../js/create_customer.js" integrity="sha384-kFOxneoc7SVB0PQZrQ117iRN/u184l4qGt+iNsNyL5IIjSZT4A14KzWULEeeB3NQ"></script>
+
+		<!-- Modal para confirmar la entrada de datos a la BBDD -->
+		<div class="modal fade" id="modalDBSuccess" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title" id="modalDBSuccessLabel">Modal title</h5>
+				</div>
+				<div class="modal-body">
+				Client information saved successfully!
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				  <button type="button" class="btn btn-primary">Understood</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+
+		<script src="../../js/create_customer.js"></script>
 		<script> var $ = jQuery = require("jquery"); </script>
 		<script src="../../js/popper.min.js" integrity="sha384-uLHxgwX6ZvC6FoWIhzkulUpK8rYAiK30nm034ygkllTGvodI+uL6V5an1iTvrLIL"></script>
 		<script src="../../js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"></script>
