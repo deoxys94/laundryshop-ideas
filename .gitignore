@@ -4,3 +4,13 @@ node_modules/
 src/datos/msnMessenger.db
 
 src/js/subresource_calculator.sh
+
+.codelite/
+
+.vscode/
+
+.tern-port
+
+.tern-project
+
+laundryshop-ideas.workspace

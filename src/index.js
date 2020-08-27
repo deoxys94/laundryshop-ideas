@@ -16,15 +16,15 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 600,
+    width: 1280,
+    height: 720,
 	webPreferences: {
     nodeIntegration: true
 	}
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'views/customers/createCustomer.html'));
+  mainWindow.loadFile(path.join(__dirname, 'views/customers/index.html'));
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -89,115 +89,44 @@ app.on('activate', () => {
 */
 
 //#region  Código de la ventana principal de la aplicación 
-// Cada ventana debe tener su función propia para abrir y cerrar. El numero de variables indica la cantidad de instancias que se va a tener. Si solo se usa una variable, los atajos de teclado dejan de funcionar hasta que la ventana se cierre.
 
-
-function openOrdersWindow() 
-{
-	var ordersWindow = null;
-	
-	if (ordersWindow) 
-	{
-		ordersWindow.focus();
-		return;
-	}
-
-	ordersWindow = new BrowserWindow({
-		height: 800,
-		width: 600,
-		title: '',
-		fullscreenable: false
-	});
-
-  ordersWindow.loadFile(path.join(__dirname, 'views/orders/index.html'));
-
-	ordersWindow.on('closed', function() {
-		ordersWindow = null;
-	});
-}
-
-function openCustomerWindow() 
-{
-	var customerWindow = null;
-	
-	if (customerWindow) 
-	{
-		customerWindow.focus();
-		return;
-	}
-
-	customerWindow = new BrowserWindow({
-		height: 800,
-		width: 600,
-		title: '',
-		fullscreenable: false
-	});
-
-	customerWindow.loadFile(path.join(__dirname, 'views/customers/index.html'));
-
-	customerWindow.on('closed', function() {
-		customerWindow = null;
-	});
-}
-
-function openGarmentsWindow() 
-{
-	var newWindow = null;
-	if (newWindow) 
-	{
-		newWindow.focus();
-		return;
-	}
-
-	newWindow = new BrowserWindow({
-		height: 800,
-		width: 600,
-		title: '',
-		fullscreenable: false
-	});
-
-	newWindow.loadFile(path.join(__dirname, 'views/garments/index.html'));
-
-	newWindow.on('closed', function() {
-		newWindow = null;
-	});
-}
-
-// Detectar si un botón de la barra de herramientas ha sido presionado e invocar la función necesaria
-
-ipcMain.on('open-orders', function()
-{
-  openOrdersWindow();
-});
-
-ipcMain.on('open-users', function()
-{
-    openCustomerWindow();
-});
-
-ipcMain.on('open-garments', function()
-{
-    openGarmentsWindow();
-});
 //#endregion
 
 //#region  codigo de la página principal de clientes
 
 ipcMain.on("customersIndexWindowLoaded", function()
 {
-  let resultado = knex.select().from("customer_list").where("deleted", 0);
-  resultado.then(function(rows){mainWindow.webContents.send("consultaListaUsuarios", rows);}).catch(function(error) {
-    console.error(error);
-  });
+	let resultado = knex.raw('SELECT customer_list.customerID, customer_list.lastName, customer_list.firstName, membership_catalogue.membershipName, customer_list.membershipBalance FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.deleted = 0');
+	resultado.then(function(rows)
+  	{
+		mainWindow.webContents.send("consultaListaUsuarios", rows);
+	}).catch(function(error) 
+	{
+    	console.error(error);
+  	});
 }
 );
+
+// Búsqueda de clientes
+ipcMain.on("searchAClient", (event, customerName) => 
+{
+	let resultado = knex.raw("SELECT customer_list.customerID, customer_list.lastName, customer_list.firstName, membership_catalogue.membershipName, customer_list.membershipBalance FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.lastName = ? OR customer_list.firstName = ? AND customer_list.deleted = 0", [customerName[0], customerName[1]]);
+	resultado.then((rows) => 
+	{
+		mainWindow.webContents.send("resultadosBusquedaClientes", rows);
+	}).catch((error) => 
+	{
+		console.error(error);
+	});
+});
+
 //#endregion
 
 //#region  Código de la ventana para dar de alta un cliente
 ipcMain.on("createUserWindowLoaded", function()
 {
-  let resultado = knex.select("membershipID", "membershipName", "membershipBenefits").from("membership_catalogue").where("deleted", 0);
-  resultado.then(function(rows){mainWindow.webContents.send("catalogoMembresias", rows);}).catch(function(error) {
+	let resultado = knex.select("membershipID", "membershipName", "membershipBenefits").from("membership_catalogue").where("deleted", 0);
+  	resultado.then(function(rows){mainWindow.webContents.send("catalogoMembresias", rows);}).catch(function(error) {
     console.error(error);
   });
 }
@@ -217,7 +146,24 @@ ipcMain.on("customerInformation", function(event, informacion)
 	let today = new Date();
 	let d = (today.getMonth()+1)+'/'+today.getDate()+'/'+today.getFullYear();
 
-	let insercion = knex("customer_list").insert({customerID: informacion[0], lastName: informacion[1][0], firstName: informacion[1][1], gender: informacion[2], phoneNumber: informacion[4], customerAddress: informacion[3], dateJoined: d.toString(), membershipType: parseInt(informacion[5]), membershipBalance: parseInt(informacion[6]), deleted: informacion[7]}).then(mainWindow.webContents.send("customerSucessfullyCreated")).catch((err) => { console.log( err); throw err });
+	let insercion = knex("customer_list").insert({customerID: informacion[0], lastName: informacion[1][0], firstName: informacion[1][1], gender: informacion[2], phoneNumber: informacion[4], customerAddress: informacion[3], dateJoined: d.toString(), membershipType: parseInt(informacion[5]), membershipBalance: parseInt(informacion[6]), clientRemarks: informacion[7], deleted: informacion[8]}).then(mainWindow.webContents.send("customerSucessfullyCreated")).catch((err) => { console.log( err); throw err });
 
 });
+//#endregion
+
+//#region código de la ventana para ver el perfil del cliente/editar información del cliente
+
+ipcMain.on("getCustomerInformation", (evt, customerID) => 
+{
+	let resultado = knex.raw("SELECT customer_list.customerID, customer_list.lastName, customer_list.firstName, customer_list.gender, customer_list.phoneNumber, customer_list.customerAddress, customer_list.dateJoined, membership_catalogue.membershipName, customer_list.membershipBalance, customer_list.clientRemarks FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.customerID = ? AND customer_list.deleted = 0", [customerID]);
+	resultado.then((rows) => 
+	{
+		mainWindow.webContents.send("informacionClienteRecibida", rows);
+	}
+	).catch((error) => 
+	{
+		console.error(error);
+	});
+});
+
 //#endregion

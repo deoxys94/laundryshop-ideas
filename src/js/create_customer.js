@@ -9,7 +9,7 @@ let llavePrimaria = 0;
 document.addEventListener("DOMContentLoaded", () =>
     {
         ipcCustomerIndex.send("createUserWindowLoaded");
-        ipcCustomerIndex.on("catalogoMembresias", function(evt, result)
+        ipcCustomerIndex.on("catalogoMembresias", (evt, result) => 
             {                
                 for (var i = 0; i < result.length;i++)
                 {
@@ -20,14 +20,15 @@ document.addEventListener("DOMContentLoaded", () =>
         );
 
         ipcCustomerIndex.send("checkCurrentPrimaryKeyIndex");
-        ipcCustomerIndex.on("currentPrimaryKeyIndexChecked", function(evt, result)
+        ipcCustomerIndex.on("currentPrimaryKeyIndexChecked", (evt, result) =>
             {            
-                if(result.length == 0)
+                if((result.length == 0) || (result[0].seq == 0))
                 {
                     llavePrimaria = 1;
                     return;
                 }
-                llavePrimaria = result[0].seq;     
+
+                llavePrimaria = result[0].seq + 1;
             }
         );
     }
@@ -50,6 +51,7 @@ botonEnviarFormulario.addEventListener('click', () => {
     let direccionCliente = document.getElementById("customerAddress");
     let telefonoCliente = document.getElementById("customerPhone"); 
     let alertasValidacion = document.getElementById("validationWarnings");
+    let observacionesCliente = document.getElementById("customerNotesField");
     //#endregion
 
     //#region Validación del nombre del cliente. Si no se provee de un nombre de cliente, se notifica al usuario y se suspende la operación.
@@ -70,15 +72,17 @@ botonEnviarFormulario.addEventListener('click', () => {
         [4] Teléfono del cliente
         [5] Llave foranea de la membresía asignada
         [6] Dinero electrónico asignado por la membresía
-        [7] Eliminado o no eliminado (al mometo de crear, siempre debe ser cero)
+        [7] Las observaciones/notas sobre el cliente
+        [8] Eliminado o no eliminado (al mometo de crear, siempre debe ser cero)
     */
-    let informacion = [llavePrimaria, dividir_nombre(nombreCliente.value), radioClientes, direccionCliente.value, telefonoCliente.value, comboboxMembresias.options[comboboxMembresias.selectedIndex].value, beneficiosMembresia[(comboboxMembresias.options[comboboxMembresias.selectedIndex].value) - 1], 0];
+
+    let informacion = [llavePrimaria, dividir_nombre(nombreCliente.value), radioClientes, direccionCliente.value, telefonoCliente.value, comboboxMembresias.options[comboboxMembresias.selectedIndex].value, beneficiosMembresia[(comboboxMembresias.options[comboboxMembresias.selectedIndex].value) - 1], observacionesCliente.value, 0];
     ipcCustomerIndex.send("customerInformation", informacion);
-    ipcCustomerIndex.on("customerSucessfullyCreated", () => {
+	
+    ipcCustomerIndex.on("customerSucessfullyCreated", () => 
+    {
         $("#modalDBSuccess").modal("show");
     })
-
-    console.log(informacion);
 });
 
 function dividir_nombre(stringNombre = "stri")
