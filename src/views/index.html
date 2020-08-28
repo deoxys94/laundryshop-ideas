@@ -1,8 +1,3 @@
-<!--
-	Main view:
-	Since the application uses a navbar in every screen, there's always a big blank in most of them. In order to take advantage of that blank in the main screen, the idea is displaying some kind of useful information. The suggestion for this screen is showing the latest orders placed by the clients.
--->
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -33,7 +28,7 @@
 
 	<body>
 		<header>
-			<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #0d47a1;" >
+			<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #1974D2;" >
 				
 				<!-- Botón para mostrar los elementos en caso de que la ventana se redimensione -->
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarButtons" aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +51,7 @@
 						</li>
 
 						<li class="nav-item">
-							<a href="#" class="nav-link" id="customersButton">
+							<a href="customers/index.html" class="nav-link" id="customersButton">
 								<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-people-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 									<path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
 								</svg>
@@ -76,7 +71,7 @@
 					</ul>
 					<!-- Botones que van en la barra de herramientas -->
 
-					<a href="#" class="nav-link" id="garmentsButton" style="color: #ffffff">
+					<a href="settings.html" class="btn btn-outline-light" id="settingsButton">
 						<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-tools" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 						  <path fill-rule="evenodd" d="M0 1l1-1 3.081 2.2a1 1 0 0 1 .419.815v.07a1 1 0 0 0 .293.708L10.5 9.5l.914-.305a1 1 0 0 1 1.023.242l3.356 3.356a1 1 0 0 1 0 1.414l-1.586 1.586a1 1 0 0 1-1.414 0l-3.356-3.356a1 1 0 0 1-.242-1.023L9.5 10.5 3.793 4.793a1 1 0 0 0-.707-.293h-.071a1 1 0 0 1-.814-.419L0 1zm11.354 9.646a.5.5 0 0 0-.708.708l3 3a.5.5 0 0 0 .708-.708l-3-3z"/>
 						  <path fill-rule="evenodd" d="M15.898 2.223a3.003 3.003 0 0 1-3.679 3.674L5.878 12.15a3 3 0 1 1-2.027-2.027l6.252-6.341A3 3 0 0 1 13.778.1l-2.142 2.142L12 4l1.757.364 2.141-2.141zm-13.37 9.019L3.001 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026z"/>
@@ -95,7 +90,7 @@
 					<div class="card-body">
 						<h5 class="card-title">Mr. Doe's order</h5>
 						<p class="card-text">Order placed on 10/10/2020.</p>
-						<p class="card-text"><a href="#" class="btn btn-primary">Check details</a></p>
+						<p class="card-text"><a href="customers/customerProfile.html?customerID=1" class="btn btn-primary">Check details</a></p>
 					</div>
 				</div>
 				
@@ -118,7 +113,7 @@
 		</div>
 		
 		<!-- page content -->
-		<script src="../js/renderer_scripts.js" integrity="sha384-EDh2QacdmRmsCrAQlNP71st/L2TwEl2DrDcJ2W35GKfyF516/Tj0btGbGu3q5r2P"></script>		
+		<script src="../js/renderer_scripts.js"></script>		
 		<script>window.$ = window.jQuery = require('jquery');</script>
 		<script src="../js/popper.min.js" integrity="sha384-uLHxgwX6ZvC6FoWIhzkulUpK8rYAiK30nm034ygkllTGvodI+uL6V5an1iTvrLIL"></script>
 		<script src="../js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"></script>
