@@ -1,149 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="has-navbar-fixed-top">
+
 	<head>
 		<meta charset="utf-8">
-		<!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-L5dSlE5wbECrSUOE8kQsfCbuEldk4WDmQp5O8vMrR9g='">-->
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
-		<title>title</title>
-		<link href="../../css/bootstrap.css" rel="stylesheet">
-		
-		<style>
-			body 
-			{ 
-				padding-top: 70px; 
-			}
-
-			nav .navbar-nav li a
-			{
-				color: #FFFFFF !important;
-			}
-			
-			nav .navbar-nav li a:hover
-			{
-				color: #C5D6C7 !important;
-			}
-		</style>
-		
+		<title>Laundry Shop</title>
+				
+		<link rel="stylesheet" href="../../css/bulma.min.css">
+		<link rel="stylesheet" href="../../css/custom_sub.css">
+	
 	</head>
 
 	<body>
+
 		<header>
-			<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #1b5e20;" >
+			<nav class="navbar is-fixed-top is-success is-size-5" role="navigation" aria-label="main navigation">
 				
-				<!-- Botón para mostrar los elementos en caso de que la ventana se redimensione -->
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarButtons" aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<!-- Botón para mostrar los elementos en caso de que la ventana se redimensione -->
-				
-				<a class="navbar-brand" href="#">Brand</a>
-				
-				<div class="collapse navbar-collapse" id="navbarButtons">
-					<!-- Botones que van en la barra de herramientas -->
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="index.html">
-								<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-								  <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
-								  <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
-								  <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-								</svg>
-								Return
-							</a>
-						</li>
-					</ul>
-					<!-- Botones que van en la barra de herramientas -->
+				<!--Logotipo de la barra-->
+				<div class="navbar-brand">
+					<a class="navbar-item">
+						Brand
+					</a>
+					
+					<!--Botón para el menú de hamburguesa-->
+					<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+					</a>
 				</div>
+				<!--Logotipo de la barra-->
+				
+				<!--Contenido de la Barra-->
+				 <div class="navbar-menu">
+
+					<!--Botones al principio de la barra-->
+					<div class="navbar-start">
+						<a class="navbar-item" href="index.html">
+							<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							  <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.646 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L6.207 7.5H11a.5.5 0 0 1 0 1H6.207l2.147 2.146z"/>
+							</svg>
+							&nbsp;Return
+						</a>
+					</div>
+					
+					<!--Botones al principio de la barra-->
+					
+					<!--Botones al final de la barra-->
+					<div class="navbar-end">
+					</div>
+					<!--Botones al final de la barra-->
+					
+				</div>
+				<!--Contenido de la barra-->
 			</nav>
 		</header>
 		<!-- page content -->
 		
-		<div class="container">
-
-		<div id="validationWarnings">
-		</div>
-
-		<h2>Add new customer</h2>
-		
-			<form>
-				<div class="row">
-					
-					<div class="col">
-						<div class="form-group">
-							<label for="customerName">Name</label>
-							<input type="text" class="form-control" id="inputCustomerName" name="nombreCliente">
-						</div>
+		<section class="section" id="pageContent">
+			
+			<div class="content">
+				<div id="validationWarnings">
+				</div>
+				
+				<h2>Add new customer</h2>
+			</div>
+			
+			<div class="field is-horizontal">
+				<div class="field-body">
+					<label for="inputCustomerName">Name</label>
+					<div class="field">
+						<p class="control is-expanded">
+							<input class="input" type="text" id="inputCustomerName">
+						</p>
 					</div>
 					
-					<div class="col">
-						<div class="custom-control custom-radio">
-						  <input type="radio" id="tratamientoCliente1" name="tratamientoCliente" class="custom-control-input" value="小姐">
-						  <label class="custom-control-label" for="tratamientoCliente1">小姐</label>
-						</div>
-						<div class="custom-control custom-radio">
-						  <input type="radio" id="tratamientoCliente2" name="tratamientoCliente" class="custom-control-input" value="先生">
-						  <label class="custom-control-label" for="tratamientoCliente2">先生</label>
-						</div>
-						<div class="custom-control custom-radio">
-						  <input type="radio" id="tratamientoCliente3" name="tratamientoCliente" class="custom-control-input" value="-" checked>
-						  <label class="custom-control-label" for="tratamientoCliente3">-</label>
-						</div>
+					<div class="field">
+						<p class="control is-expanded">
+							<label class="custom-control-label" for="tratamientoCliente1">
+								<input type="radio" id="tratamientoCliente1" name="tratamientoCliente" value="小姐">
+								小姐
+							</label>
+
+							<label class="custom-control-label" for="tratamientoCliente2">
+								<input type="radio" id="tratamientoCliente2" name="tratamientoCliente" value="先生">
+								先生
+							</label>
+
+							<label class="custom-control-label" for="tratamientoCliente3">
+								<input type="radio" id="tratamientoCliente3" name="tratamientoCliente" value="-" checked>
+								-
+							</label>
+						</p>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class="field">
+				<label for="customerAddress">Address</label>
+				<div class="control">
+					<input type="text" class="input" id="customerAddress" name="direccionCliente">
+				</div>
+				
+				<label for="customerPhone">Phone Number</label>
+				<div class="control">
+					<input type="tel" class="input" id="customerPhone" name="telefonoCliente">
+				</div>
+
+				<label for="membershipSelector">Select a membership type</label>
+				<div class="control">
+					<div class="select">
+						<select id="membershipSelector" name="tipoMembresia">
+						</select>
 					</div>
 				</div>
 				
-				<div class="form-group">
-					<label for="customerAddress">Address</label>
-					<input type="text" class="form-control" id="customerAddress" name="direccionCliente">
+				<label for="benefitsShow" class="col-sm-2 col-form-label">eCash</label>
+				<div class="control">
+					<input type="text" readonly class="input" id="benefitsShow" value="0">
 				</div>
-				<div class="form-group">
-					<label for="customerPhone">Phone Number</label>
-					<input type="tel" class="form-control" id="customerPhone" name="telefonoCliente">
+			</div>
+			
+			<div class="field">
+				<label for="customerNotesField">Customer remarks</label>
+				<div class="control">
+					<textarea class="textarea" id="customerNotesField" rows="3"></textarea>
 				</div>
+			</div>
 
-				 <label for="membershipSelector">Select a membership type</label>
-				<select class="custom-select" id="membershipSelector" name="tipoMembresia">
-				</select>
-				
-				<div class="form-group row">
-					<label for="benefitsShow" class="col-sm-2 col-form-label">eCash</label>
-					<div class="col-sm-10">
-						<input type="text" readonly class="form-control-plaintext" id="benefitsShow" value="0">
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label for="customerNotesField">Customer remarks</label>
-					<textarea class="form-control" id="customerNotesField" rows="3"></textarea>
-				</div>
-			</form>
-
-			<button class="btn btn-primary" id="sendDataButton">Create customer</button>
+			<button class="button is-link" id="sendDataButton">Create customer</button>
+		</section>
 		
-		</div>
-		
+		<button class="button is-link" id="fireModal">Fire modal</button>
 		<!-- page content -->
 
-		<!-- Modal para confirmar la entrada de datos a la BBDD -->
-		<div class="modal fade" id="modalDBSuccess" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog">
-			  <div class="modal-content">
-				<div class="modal-header">
-				  <h5 class="modal-title" id="modalDBSuccessLabel">Modal title</h5>
-				</div>
-				<div class="modal-body">
-				Client information saved successfully!
-				</div>
-				<div class="modal-footer">
-					<a class="btn btn-success" href="index.html" role="button">Understood</a>
-				</div>
-			  </div>
-			</div>
-		  </div>
-
+		<!-- Modal para confirmar la entrada de datos a la BBDD --> 
+<div class="modal" id="modalDBSuccess">
+	<div class="modal-background"></div>
+	<div class="modal-card">
+		<header class="modal-card-head">
+			<p class="modal-card-title" id="modalTitle"></p>
+		</header>
+		<section class="modal-card-body" id="messageBox">
+		</section>
+		<div class="modal-card-foot" id="footerModal">
+			<button class="button is-danger is-light" id="buttonReturnClientList">Return to client list</button>
+			<button class="button is-link" id="buttonContinueEditing">Continue editing</button>
+			<button class="button is-link" id="buttonCloseModal">Understood</button>
+		</div>
+	</div>
+</div>
+		
 		<script src="../../js/create_customer.js"></script>
-		<script> var $ = jQuery = require("jquery"); </script>
-		<script src="../../js/popper.min.js" integrity="sha384-uLHxgwX6ZvC6FoWIhzkulUpK8rYAiK30nm034ygkllTGvodI+uL6V5an1iTvrLIL"></script>
-		<script src="../../js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"></script>
 	</body>
 
 </html>

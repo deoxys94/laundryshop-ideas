@@ -1,57 +1,156 @@
+<!--
+   Laundry shop ideas
+   
+   Copyright 2020 Aldair <alda@sakumo>
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+   MA 02110-1301, USA.
+   
+   
+-->
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="has-navbar-fixed-top">
+
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-N6194bBolX+7kWFnU5GvkgkdBrCuykw0H0b+YvVkGx0='">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
-		<title>title</title>
-		<link href="../../css/bootstrap.css" rel="stylesheet">
-		
-		<style>
-			body 
-			{ 
-				padding-top: 70px; 
-			}
-		</style>
-		
+		<title>Laundry Shop</title>
+				
+		<link rel="stylesheet" href="../../css/bulma.min.css">
+
+		<link rel="stylesheet" href="../../css/custom_sub.css">
+	
 	</head>
 
 	<body>
+		<!--Barra de navegación-->
 		<header>
-			<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #1b5e20;" >
+			<nav class="navbar is-fixed-top is-success is-size-5" role="navigation" aria-label="main navigation">
 				
-				<!-- Botón para mostrar los elementos en caso de que la ventana se redimensione -->
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarButtons" aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<!-- Botón para mostrar los elementos en caso de que la ventana se redimensione -->
-				
-				<a class="navbar-brand" href="#">Brand</a>
-				
-				<div class="collapse navbar-collapse" id="navbarButtons">
-					<!-- Botones que van en la barra de herramientas -->
+				<!--Logotipo de la barra-->
+				<div class="navbar-brand">
+					<a class="navbar-item">
+						Brand
+					</a>
 					
-					<!-- Botones que van en la barra de herramientas -->
+					<!--Botón para el menú de hamburguesa-->
+					<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+					</a>
 				</div>
+				<!--Logotipo de la barra-->
+				
+				<!--Contenido de la Barra-->
+				 <div class="navbar-menu">
+					 
+					<!--Botones al principio de la barra-->
+					<div class="navbar-start">
+						<a class="navbar-item" href="index.html">
+							<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							  <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.646 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L6.207 7.5H11a.5.5 0 0 1 0 1H6.207l2.147 2.146z"/>
+							</svg>
+							&nbsp;Return
+						</a>
+					</div>
+					
+					<!--Botones al principio de la barra-->
+					<div class="navbar-end">
+								
+					<!--Botones al final de la barra-->
+					
+				</div>
+				<!--Contenido de la barra-->
 			</nav>
 		</header>
-		<!-- page content -->
 		
-		<div class="container">
-
-			<div class="row">
-				<!-- Dentro de este van los "cols" necesarios -->
+		<!-- Contenido de la página -->
+		<section class="section" id="pageContent">
+			<nav class="panel">
+				<p class="panel-heading" id="panelTitle"></p>
 				
-				<!-- Dentro de este van los "cols" necesarios -->
+				<div class="panel-block">
+					<p class="control">
+						<input class="input" type="text" placeholder="Search" id="searchBox">
+					</p>
+				</div>
+				
+				<p class="panel-tabs">
+					<a id="tabCustomers">Customers</a>
+					<a id="tabOrders">Orders</a>
+					<a id="tabGarments">Garments</a>
+				</p>
+				
+				<a class="panel-block" id="customerSearchOption1">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="customerSearchValue" id="radioName">
+							Name
+						</label>
+					</div>
+				</a>
+
+				<a class="panel-block" id="customerSearchOption2">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="customerSearchValue" id="radioNumber">
+							Customer Number
+						</label>
+					</div>
+				</a>
+				
+				<a class="panel-block" id="customerSearchOption3">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="customerSearchValue" id="radioPhone">
+							Phone Number
+						</label>
+					</div>
+				</a>
+				
+				<a class="panel-block" id="customerSearchOption4">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="customerSearchValue" id="radioNotes">
+							Notes
+						</label>
+					</div>
+				</a>
+	  
+				<div class="panel-block">
+					<button class="button is-outlined is-fullwidth" id="buttonSearch">
+					</button>
+				</div>
+			</nav>
+
+			<div class="box">
+				<div class="content" id="searchResults">
+
+				</div>
 			</div>
+		</section>
+		<!-- Contenido de la página -->
 
-		</div>
 		
-		<!-- page content -->
+		<!--Modal-->
 		
-		<script> var $ = jQuery = require("jquery"); </script>
-		<script src="../../js/popper.min.js" integrity="uLHxgwX6ZvC6FoWIhzkulUpK8rYAiK30nm034ygkllTGvodI+uL6V5an1iTvrLIL"></script>
-		<script src="../../js/bootstrap.min.js" integrity="XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"></script>
+		<!--Scripts-->
+		<script src="../../js/search_index.js"></script>		
 	</body>
-
 </html>

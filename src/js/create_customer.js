@@ -5,40 +5,43 @@ let comboboxMembresias = document.getElementById("membershipSelector");
 let beneficiosMembresia = [];
 let botonEnviarFormulario = document.getElementById("sendDataButton");
 let llavePrimaria = 0;
+let botonExitoModal = document.getElementById("buttonCloseModal");
+let modal = document.getElementById("modalDBSuccess");
 
 document.addEventListener("DOMContentLoaded", () =>
-    {
-        ipcCustomerIndex.send("createUserWindowLoaded");
-        ipcCustomerIndex.on("catalogoMembresias", (evt, result) => 
-            {                
-                for (var i = 0; i < result.length;i++)
-                {
-                    comboboxMembresias.innerHTML += '<option value="'+ result[i].membershipID.toString() +'">'+ result[i].membershipName.toString() +'</option>';
-                    beneficiosMembresia[i] = result[i].membershipBenefits.toString();
-                }
-            }
-        );
+{
+	ipcCustomerIndex.send("createUserWindowLoaded");
+	ipcCustomerIndex.on("catalogoMembresias", (evt, result) => 
+	{                
+		for (var i = 0; i < result.length;i++)
+		{
+			comboboxMembresias.innerHTML += '<option value="'+ result[i].membershipID.toString() +'">'+ result[i].membershipName.toString() +'</option>';
+			beneficiosMembresia[i] = result[i].membershipBenefits.toString();
+		}
+	}
+	);
 
-        ipcCustomerIndex.send("checkCurrentPrimaryKeyIndex");
-        ipcCustomerIndex.on("currentPrimaryKeyIndexChecked", (evt, result) =>
-            {            
-                if((result.length == 0) || (result[0].seq == 0))
-                {
-                    llavePrimaria = 1;
-                    return;
-                }
+	ipcCustomerIndex.send("checkCurrentPrimaryKeyIndex");
+	ipcCustomerIndex.on("currentPrimaryKeyIndexChecked", (evt, result) =>
+	{            
+		if((result.length == 0) || (result[0].seq == 0))
+		{
+			llavePrimaria = 1;
+			return;
+		}
 
-                llavePrimaria = result[0].seq + 1;
-            }
-        );
-    }
+		llavePrimaria = result[0].seq + 1;
+	}
+	);
+}
 );
 
 // Muestra al usuario el beneficio obtenido por cada tipo de membresia.
 
-comboboxMembresias.onchange = () => {
-    let infoMembresias = document.getElementById("benefitsShow");
-    infoMembresias.setAttribute("value", beneficiosMembresia[(comboboxMembresias.options[comboboxMembresias.selectedIndex].value) - 1]);
+comboboxMembresias.onchange = () => 
+{
+	let infoMembresias = document.getElementById("benefitsShow");
+	infoMembresias.setAttribute("value", beneficiosMembresia[(comboboxMembresias.options[comboboxMembresias.selectedIndex].value) - 1]);
 }
 
 // Guardar en la base de datos. Primero valida el formulario y después ejecuta la consulta. Si hay algún error con la validación, se notifica al usuario y se aborta la operación. Posterior a esto, se procede a guardar en la BBDD
@@ -47,22 +50,26 @@ botonEnviarFormulario.addEventListener('click', () => {
 
     //#region Variables necesarias para la operación
     let nombreCliente = document.getElementById("inputCustomerName");
-    let radioClientes = document.querySelector("input[name='tratamientoCliente']:checked").value
+    let radioClientes = document.querySelector("input[name='tratamientoCliente']:checked").value;
     let direccionCliente = document.getElementById("customerAddress");
     let telefonoCliente = document.getElementById("customerPhone"); 
     let alertasValidacion = document.getElementById("validationWarnings");
     let observacionesCliente = document.getElementById("customerNotesField");
     //#endregion
 
-    //#region Validación del nombre del cliente. Si no se provee de un nombre de cliente, se notifica al usuario y se suspende la operación.
+    //{Validación del nombre del cliente. Si no se provee de un nombre de cliente, se notifica al usuario y se suspende la operación.
     if(!nombreCliente.value)
     {
-        alertasValidacion.innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Holy guacamole!</strong> Please write a name to continue. <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+		alertasValidacion.innerHTML = `
+			<div class="notification is-danger is-light"><button class="delete"></button>
+				<strong>Holy guacamole!</strong> Please write a name to continue.
+			</div>
+		`;
         return;
     }
-    //#endregion
+    //}
 
-    //#region Guardar datos
+    //{Guardar datos
     /*
     Componentes del arreglo:
         [0] llave primaria de la tabla
@@ -77,13 +84,28 @@ botonEnviarFormulario.addEventListener('click', () => {
     */
 
     let informacion = [llavePrimaria, dividir_nombre(nombreCliente.value), radioClientes, direccionCliente.value, telefonoCliente.value, comboboxMembresias.options[comboboxMembresias.selectedIndex].value, beneficiosMembresia[(comboboxMembresias.options[comboboxMembresias.selectedIndex].value) - 1], observacionesCliente.value, 0];
-    ipcCustomerIndex.send("customerInformation", informacion);
-	
+    
+	ipcCustomerIndex.send("customerInformation", informacion);
     ipcCustomerIndex.on("customerSucessfullyCreated", () => 
     {
-        $("#modalDBSuccess").modal("show");
-    })
+		let htmlLista = document.getElementById("searchResultsBox");
+		let tituloModal = document.getElementById("modalTitle");
+		let cuerpoModal = document.getElementById("messageBox");
+		
+		document.getElementById("modalTitle").innerHTML = "Success!";
+		document.getElementById("messageBox").innerHTML = "Customer data successfully saved!!"
+		document.getElementById("buttonReturnClientList").style.visibility = "hidden";
+		document.getElementById("buttonContinueEditing").style.visibility = "hidden";
+		modal.classList.add("is-active");
+    });
 });
+//}
+
+botonExitoModal.addEventListener("click", () =>  
+{
+	window.location.href = "index.html";
+}
+);
 
 function dividir_nombre(stringNombre = "stri")
 {
