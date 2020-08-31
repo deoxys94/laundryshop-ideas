@@ -2,10 +2,11 @@
 
 let ipcCustomerIndex = require('electron').ipcRenderer;
 let botonBusquedaClientes = document.getElementById("customerSearchButton");
+let botonNavbar = document.getElementById("navbarExpandButton");
 
 document.addEventListener("DOMContentLoaded", () =>
     {
-        let htmlLista = document.getElementById("container");
+        let htmlLista = document.getElementById("pageContent");
 
         // Crear la lista de usuarios registrados
         ipcCustomerIndex.send("customersIndexWindowLoaded");
@@ -15,20 +16,28 @@ document.addEventListener("DOMContentLoaded", () =>
 
                 if (result.length == 0)
                 {
-                    htmlLista.innerHTML = '<div class="alert alert-info" role="alert">' + 'No customers found. Use the buttons in the navbar to begin' + '</div>';
+						htmlLista.innerHTML = `
+						<article class="message is-link">
+							<div class="message-header">
+								<p>No customers</p>
+							</div>
+							<div class="message-body">
+								No customers Found. Use the buttons above to begin.
+							</div>
+						</article>
+					`;
                     return;
                 }
                 
                 contenidos = `
-                <table class="table">
-                    <thead class="thead-dark">
+                <table class="table is-fullwidth is-hoverable">
+                    <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Membership</th>
                             <th scope="col">Balance</th>
                             <th scope="col">Actions</th>
-                            <th scope="col"></th>
                         </tr>
                     </thead>
                 <tbody>
@@ -42,8 +51,7 @@ document.addEventListener("DOMContentLoaded", () =>
 						<td>${result[i].lastName.toString()}${result[i].firstName.toString()}</td>
 						<td>${result[i].membershipName.toString()}</td>
                         <td>${result[i].membershipBalance.toString()}</td>
-						<td><a class="btn btn-primary" href="customerProfile.html?customerID=${result[i].customerID.toString()}" role="button">Customer Info.</a></td>
-						<td><button type="button" class="btn btn-danger">Delete</button></td>
+						<td><a class="button is-link" href="customerProfile.html?customerID=${result[i].customerID.toString()}" role="button">Customer Info.</a></td>
 					</tr>`;
                 }
                 
@@ -51,72 +59,23 @@ document.addEventListener("DOMContentLoaded", () =>
                     </tbody>
                 </table>`;
 
-                htmlLista.innerHTML = contenidos;
+                htmlLista.innerHTML += contenidos;
             }
         );
     }
 );
 
-botonBusquedaClientes.addEventListener('click', () => 
+botonNavbar.addEventListener("click", () => 
 {
-    let stringNombreCliente = document.getElementById("customerSearchInput");
-    let htmlLista = document.getElementById("searchResultsBox");
-
-    //#region Validación del nombre del cliente. Si no se provee de un nombre de cliente, se notifica al usuario y se suspende la operación.
-    if(!stringNombreCliente.value)
-        return;
-    //#endregion
-
-
-    ipcCustomerIndex.send("searchAClient", dividir_nombre(stringNombreCliente.value.toString()));
-    ipcCustomerIndex.on("resultadosBusquedaClientes", (evt, result) => 
-    {
-        let contenidos;
-
-        if (result.length == 0)
-        {
-            htmlLista.innerHTML = '<div class="alert alert-info" role="alert">' + 'No customers found. Please search again' + '</div>';
-            return;
-        }
-        else
-        {
-            contenidos = `
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Membership</th>
-                        <th scope="col">Balance</th>
-                        <th scope="col">Actions</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-            <tbody>
-            `;    
-
-            for(var i = 0; i < result.length; i++)
-            {
-                contenidos += `
-                <tr>
-                    <th scope="row">${result[i].customerID.toString()}</th>
-                    <td>${result[i].lastName.toString()}${result[i].firstName.toString()}</td>
-                    <td>${result[i].membershipName.toString()}</td>
-                    <td>${result[i].membershipBalance.toString()}</td>
-                    <td><button type="button" class="btn btn-primary">Edit</button></td>
-                    <td><button type="button" class="btn btn-danger">Delete</button></td>
-                </tr>`;
-            }
-            
-            contenidos += `
-                </tbody>
-            </table>`;
-            
-            htmlLista.innerHTML = contenidos;
-        }
-    });
-
-    $("#modalCustomerSearch").modal("show");
+	if(botonNavbar.classList.contains("is-active"))
+	{
+		botonNavbar.classList.remove("is-active");
+		document.getElementById("navbarMenu").classList.remove("is-active");
+		return;
+	}
+	
+	botonNavbar.classList.add("is-active");
+	document.getElementById("navbarMenu").classList.add("is-active");
 });
 
 function dividir_nombre(stringNombre = "stri")
@@ -124,6 +83,13 @@ function dividir_nombre(stringNombre = "stri")
     let apellido = "";
     let nombre = "";
     stringNombre = stringNombre.replace(/\s/g,'');
+
+	if(stringNombre.length == 1)
+	{
+		apellido = stringNombre.charAt(0);
+		nombre = stringNombre.charAt(0);
+		return [apellido, nombre];
+	}
 
     if(stringNombre.length == 2)
     {

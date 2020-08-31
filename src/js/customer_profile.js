@@ -2,6 +2,8 @@
 
 let ipcCustomerProfile = require('electron').ipcRenderer;
 let goBackNavBarButton = document.getElementById("botonRegresarAnterior");
+let editInfoNavbarButton = document.getElementById("editCustomerButton");
+let deleteUserNavbarButton = document.getElementById("deleteUserButton");
 
 document.addEventListener("DOMContentLoaded", () =>
 {
@@ -20,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () =>
         </div>`;
         return;
     }
-
+	
     ipcCustomerProfile.send("getCustomerInformation", auxArgs.get("customerID"));
     ipcCustomerProfile.on("informacionClienteRecibida", (evt, results) => 
     {
@@ -56,6 +58,20 @@ document.addEventListener("DOMContentLoaded", () =>
             <li class="list-group-item list-group-item-info">Customer's remarks</li>
             <li class="list-group-item">${results[0].clientRemarks.toString()}</li>
         </ul><br>
-    `;
+		`;
+	
+		editInfoNavbarButton.setAttribute("href", `editCustomer.html?customerID=${results[0].customerID.toString()}`);
     });
 });
+
+goBackNavBarButton.addEventListener("click", () => 
+{
+	window.history.back();
+}
+);
+
+deleteUserNavbarButton.addEventListener("click", () => 
+{
+	
+}
+);
