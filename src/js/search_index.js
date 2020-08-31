@@ -2,6 +2,11 @@
 
 let cajaBusqueda = document.getElementById("searchBox");
 let ipcCustomerIndex = require('electron').ipcRenderer;
+let botonBuscar = document.getElementById("buttonSearch");
+let primerPanel = document.getElementById("customerSearchOption1");
+let segundoPanel = document.getElementById("customerSearchOption2");
+let tercerPanel = document.getElementById("customerSearchOption3");
+let cuartoPanel = document.getElementById("customerSearchOption4");
 
 document.addEventListener("DOMContentLoaded", () => 
 {
@@ -33,25 +38,90 @@ cajaBusqueda.addEventListener("keydown", (e) =>
 {
 	if(e.key === 'Enter')
 	{
-		if(document.getElementById("radioName").checked)
-		{
-			ipcCustomerIndex.send("searchClientName", dividir_nombre(document.getElementById("searchBox").value.toString()));
-		}
+		buscarElementos();
+	}
+}
+);
+
+botonBuscar.addEventListener("click", () =>
+{
+	buscarElementos();
+});
+
+primerPanel.addEventListener("click", () =>
+{
+	document.getElementById("radioName").checked = true;
+});
+
+segundoPanel.addEventListener("click", () =>
+{
+	document.getElementById("radioNumber").checked = true;
+});
+
+tercerPanel.addEventListener("click", () =>
+{
+	document.getElementById("radioPhone").checked = true;
+});
+
+cuartoPanel.addEventListener("click", () =>
+{
+	document.getElementById("radioNotes").checked = true;
+});
+
+function buscarElementos()
+{
+	if(!cajaBusqueda.value)
+	{
+		document.getElementById("searchResults").innerHTML = `
+			<div class="notification is-danger is-light">
+				<strong>Empty searchbox</strong>. Please write something to begin.
+			</div>
+		`;
+		return;
+	}
+	
+	if(!document.querySelector("input[name='customerSearchValue']:checked"))
+	{
+		document.getElementById("searchResults").innerHTML = `
+			<div class="notification is-warning is-light">
+				Please select a search category
+			</div>
+		`;
+	}
+	
+	if(document.getElementById("radioName").checked)
+	{
+		ipcCustomerIndex.send("searchClientName", dividir_nombre(document.getElementById("searchBox").value.toString()));
+	}
+	
+	if(document.getElementById("radioNumber").checked)
+	{
+		ipcCustomerIndex.send("searchClientNumber", parseInt(document.getElementById("searchBox").value.toString()));
+	}
+	
+	if(document.getElementById("radioPhone").checked)
+	{
+		ipcCustomerIndex.send("searchClientPhone", "%" + document.getElementById("searchBox").value.toString() + "%");
+	}
+	
+	if(document.getElementById("radioNotes").checked)
+	{
+		ipcCustomerIndex.send("searchClientRemarks", "%" + document.getElementById("searchBox").value.toString() + "%");
 	}
 	
 	ipcCustomerIndex.on("resultadosBusquedaClientes", (evt, result) => 
 	{
 		let contenidos;
-		
-        if (result.length == 0)
-        {
-            document.getElementById("searchResults").innerHTML = `
+
+		if (result.length == 0)
+		{
+			document.getElementById("searchResults").innerHTML = `
 				<div class="notification is-link is-light">
 					<strong>No customers found</strong>. Please try again with different keywords.
 				</div>
 			`;
-            return;
-        }
+			return;
+		}
 		else
 		{
 			contenidos = `
@@ -87,10 +157,9 @@ cajaBusqueda.addEventListener("keydown", (e) =>
 			
 			document.getElementById("searchResults").innerHTML = contenidos;
 		}
-	}
-	);
+
+	});
 }
-);
 
 function dividir_nombre(stringNombre = "stri")
 {

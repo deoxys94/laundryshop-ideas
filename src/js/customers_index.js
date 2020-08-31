@@ -2,7 +2,7 @@
 
 let ipcCustomerIndex = require('electron').ipcRenderer;
 let botonBusquedaClientes = document.getElementById("customerSearchButton");
-
+let botonNavbar = document.getElementById("navbarExpandButton");
 
 document.addEventListener("DOMContentLoaded", () =>
     {
@@ -64,6 +64,19 @@ document.addEventListener("DOMContentLoaded", () =>
         );
     }
 );
+
+botonNavbar.addEventListener("click", () => 
+{
+	if(botonNavbar.classList.contains("is-active"))
+	{
+		botonNavbar.classList.remove("is-active");
+		document.getElementById("navbarMenu").classList.remove("is-active");
+		return;
+	}
+	
+	botonNavbar.classList.add("is-active");
+	document.getElementById("navbarMenu").classList.add("is-active");
+});
 
 function dividir_nombre(stringNombre = "stri")
 {
