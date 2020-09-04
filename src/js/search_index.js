@@ -1,7 +1,8 @@
 'use strict';
 
-let cajaBusqueda = document.getElementById("searchBox");
 let ipcCustomerIndex = require('electron').ipcRenderer;
+let goBackNavBarButton = document.getElementById("botonRegresarAnterior");
+let cajaBusqueda = document.getElementById("searchBox");
 let botonBuscar = document.getElementById("buttonSearch");
 let primerPanel = document.getElementById("customerSearchOption1");
 let segundoPanel = document.getElementById("customerSearchOption2");
@@ -66,6 +67,11 @@ tercerPanel.addEventListener("click", () =>
 cuartoPanel.addEventListener("click", () =>
 {
 	document.getElementById("radioNotes").checked = true;
+});
+
+goBackNavBarButton.addEventListener("click", () => 
+{
+	window.history.back();
 });
 
 function buscarElementos()
@@ -144,7 +150,7 @@ function buscarElementos()
 				contenidos += `
 				<tr>
 					<th scope="row">${result[i].customerID.toString()}</th>
-					<td>${result[i].lastName.toString()}${result[i].firstName.toString()}</td>
+					<td>${result[i].customerName.toString()}</td>
 					<td>${result[i].membershipName.toString()}</td>
 					<td>${result[i].membershipBalance.toString()}</td>
 					<td><a class="button is-link" href="../customers/customerProfile.html?customerID=${result[i].customerID.toString()}" role="button">Customer Info.</a></td>

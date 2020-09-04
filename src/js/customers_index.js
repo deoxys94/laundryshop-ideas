@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () =>
                 }
                 
                 contenidos = `
+				<h2>Customer list</h2>
                 <table class="table is-fullwidth is-hoverable">
                     <thead>
                         <tr>
@@ -48,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () =>
                     contenidos += `
                     <tr>
 						<th scope="row">${result[i].customerID.toString()}</th>
-						<td>${result[i].lastName.toString()}${result[i].firstName.toString()}</td>
+						<td>${result[i].customerName.toString()}</td>
 						<td>${result[i].membershipName.toString()}</td>
                         <td>${result[i].membershipBalance.toString()}</td>
 						<td><a class="button is-link" href="customerProfile.html?customerID=${result[i].customerID.toString()}" role="button">Customer Info.</a></td>

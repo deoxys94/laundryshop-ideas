@@ -1,174 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="has-navbar-fixed-top">
+
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-L5dSlE5wbECrSUOE8kQsfCbuEldk4WDmQp5O8vMrR9g='">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
-		<title>title</title>
-		<link href="../../css/bootstrap.css" rel="stylesheet">
-		
-		<style>
-			body 
-			{ 
-				padding-top: 70px; 
-			}
-
-			nav .navbar-nav li a
-			{
-				color: #FFFFFF !important;
-			}
-			
-			nav .navbar-nav li a:hover
-			{
-				color: #C5D6C7 !important;
-			}
-		</style>
-		
+		<title>Laundry Shop</title>
+				
+		<link rel="stylesheet" href="../../css/bulma.min.css">
+		<link rel="stylesheet" href="../../css/custom_sub.css">
+	
 	</head>
 
 	<body>
 		<header>
-			<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #1b5e20;" >
+			<nav class="navbar is-fixed-top is-success is-size-5" role="navigation" aria-label="main navigation">
 				
-				<!-- Botón para mostrar los elementos en caso de que la ventana se redimensione -->
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarButtons" aria-controls="navbarButtons" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<!-- Botón para mostrar los elementos en caso de que la ventana se redimensione -->
-				
-				<a class="navbar-brand" href="#">Brand</a>
-				
-				<div class="collapse navbar-collapse" id="navbarButtons">
-					<!-- Botones que van en la barra de herramientas -->
+				<!--Logotipo de la barra-->
+				<div class="navbar-brand">
+					<a class="navbar-item">
+						Brand
+					</a>
 					
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item active">
-							<a class="nav-link" id="returnButton">
-								<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-left-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-								  <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-								  <path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
-								  <path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
-								</svg>
-								Exit without saving
-							</a>
-						</li>
-						<li class="nav-item active">
-							<a class="nav-link" id="goToListButton">
-								<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-left-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-								  <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-								  <path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
-								  <path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
-								</svg>
-								Go to clients list
-							</a>
-						</li>
-						<li class="nav-item active">
-							<a class="nav-link" href="">
-								<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person-badge" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" d="M12 1H4a1 1 0 0 0-1 1v11.755S4 12 8 12s5 1.755 5 1.755V2a1 1 0 0 0-1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
-									<path fill-rule="evenodd" d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5z"/>
-								</svg>
-								Top-Up
-							</a>
-						</li>
-					</ul>
-					
-					<!-- Botones que van en la barra de herramientas -->
+					<!--Botón para el menú de hamburguesa-->
+					<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+					</a>
 				</div>
+				<!--Logotipo de la barra-->
+				
+				<!--Contenido de la Barra-->
+				 <div class="navbar-menu">
+
+					<!--Botones al principio de la barra-->
+					<div class="navbar-start">
+						<a class="navbar-item" href="index.html">
+							<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							  <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.646 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L6.207 7.5H11a.5.5 0 0 1 0 1H6.207l2.147 2.146z"/>
+							</svg>
+							&nbsp;Return
+						</a>
+					</div>
+					
+					<!--Botones al principio de la barra-->
+					
+					<!--Botones al final de la barra-->
+					<div class="navbar-end">
+					</div>
+					<!--Botones al final de la barra-->
+					
+				</div>
+				<!--Contenido de la barra-->
 			</nav>
 		</header>
 		<!-- page content -->
 		
-		<div class="container">
+		<section class="section">
+			<div id="pageContent" class="content">
+				<h2>Edit customer information</h2>
+				<div class="field is-horizontal">
+					
+						<label class="label" for="inputCustomerName">Name&nbsp;</label>
+					
+					<div class="field-body">
+						<div class="field">
+							<p class="control is-expanded">
+								<input class="input" type="text" id="inputCustomerName">
+							</p>
+						</div>
+						
+						<div class="field">
+							<p class="control is-expanded">
+								<label class="label" for="tratamientoCliente1">
+									<input type="radio" id="tratamientoCliente1" name="tratamientoCliente" value="小姐">
+									小姐
+								</label>
 
-			<div id="validationWarnings">
-			</div>
-	
-			<h2>Add new customer</h2>
-			
-				<form>
-					<div class="row">
-						
-						<div class="col">
-							<div class="form-group">
-								<label for="customerName">Name</label>
-								<input type="text" class="form-control" id="inputCustomerName" name="nombreCliente">
-							</div>
+								<label class="label" for="tratamientoCliente2">
+									<input type="radio" id="tratamientoCliente2" name="tratamientoCliente" value="先生">
+									先生
+								</label>
+
+								<label class="label" for="tratamientoCliente3">
+									<input type="radio" id="tratamientoCliente3" name="tratamientoCliente" value="-" checked>
+									-
+								</label>
+							</p>
 						</div>
 						
-						<div class="col">
-							<div class="custom-control custom-radio">
-							  <input type="radio" id="tratamientoCliente1" name="tratamientoCliente" class="custom-control-input" value="小姐">
-							  <label class="custom-control-label" for="tratamientoCliente1">小姐</label>
-							</div>
-							<div class="custom-control custom-radio">
-							  <input type="radio" id="tratamientoCliente2" name="tratamientoCliente" class="custom-control-input" value="先生">
-							  <label class="custom-control-label" for="tratamientoCliente2">先生</label>
-							</div>
-							<div class="custom-control custom-radio">
-							  <input type="radio" id="tratamientoCliente3" name="tratamientoCliente" class="custom-control-input" value="-">
-							  <label class="custom-control-label" for="tratamientoCliente3">-</label>
-							</div>
-						</div>
 					</div>
-					
-					<div class="form-group">
-						<label for="customerAddress">Address</label>
-						<input type="text" class="form-control" id="customerAddress" name="direccionCliente">
-					</div>
-					<div class="form-group">
-						<label for="customerPhone">Phone Number</label>
-						<input type="tel" class="form-control" id="customerPhone" name="telefonoCliente">
-					</div>
-	
-					<div class="form-group row">
-						<label for="staticMembershpType" class="col-sm-2 col-form-label">Membership Type</label>
-						<div class="col-sm-10">
-							<input type="text" readonly class="form-control-plaintext" id="staticMembershpType" value="">
-						</div>
-					</div>
-	
-					<div class="form-group row">
-						<label for="staticBalanceInfo" class="col-sm-2 col-form-label">eCash Balance</label>
-						<div class="col-sm-10">
-							<input type="text" readonly class="form-control-plaintext" id="staticBalanceInfo" value="">
-							<p id="emailHelp" class="form-text text-muted">Note: The balance of the account is updated in every transaction. In order to edit the balance of the user, click the button "top-up."</p>
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<label for="customerNotesField">Customer remarks</label>
-						<textarea class="form-control" id="customerNotesField" rows="3"></textarea>
-					</div>
-				</form>
-	
-				<button class="btn btn-primary" id="updateDataButton">Update customer information</button>
+				</div>
 			
+				<div class="field">
+					<label class="label" for="customerAddress">Address</label>
+					<div class="control">
+						<input type="text" class="input" id="customerAddress" name="direccionCliente">
+					</div>
+					
+					<label class="label" for="customerPhone">Phone Number</label>
+					<div class="control">
+						<input type="tel" class="input" id="customerPhone" name="telefonoCliente">
+					</div>
+
+					<label class="label" for="staticMembershpType">Membership type</label>
+					<div class="control">
+						<input type="text" readonly class="input is-static" id="staticMembershpType" value="0">
+					</div>
+					
+					<label class="label" for="staticBalanceInfo">eCash</label>
+					<div class="control">
+						<input type="text" readonly class="input is-static" id="staticBalanceInfo" value="0">
+					</div>
+				</div>
+				
+				<div class="field">
+					<label class="label" for="customerNotesField">Customer remarks</label>
+					<div class="control">
+						<textarea class="textarea" id="customerNotesField" rows="3"></textarea>
+					</div>
+				</div>
 			</div>
-			
+			<button class="button is-link" id="updateDataButton">Update customer information</button>
+		</section>
 			<!-- page content -->
 	
 			<!-- Modal para confirmar la entrada de datos a la BBDD -->
-			<div class="modal fade" id="modalDBSuccess" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-				<div class="modal-dialog">
-				  <div class="modal-content">
-					<div class="modal-header">
-					  <h5 class="modal-title" id="modalDBSuccessLabel">Success!</h5>
-					</div>
-					<div class="modal-body">
-					Client information updated successfully!
-					</div>
-					<div class="modal-footer">
-						<a class="btn btn-success" href="index.html" role="button">Understood</a>
-					</div>
-				  </div>
+		<div class="modal" id="modalDBSuccess">
+			<div class="modal-background"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title" id="modalTitle"></p>
+				</header>
+				<section class="modal-card-body" id="messageBox">
+				</section>
+				<div class="modal-card-foot" id="footerModal">
+					<button class="button is-danger is-light" id="buttonReturnClientList">Return to client list</button>
+					<button class="button is-link" id="buttonContinueEditing">Continue editing</button>
+					<button class="button is-link" id="buttonCloseModal">Understood</button>
 				</div>
-			  </div>		
+			</div>
+		</div>
 		<!-- page content -->
 		<script src="../../js/edit_customer.js"></script>
-		<script> var $ = jQuery = require("jquery"); </script>
-		<script src="../../js/popper.min.js" integrity="sha384-uLHxgwX6ZvC6FoWIhzkulUpK8rYAiK30nm034ygkllTGvodI+uL6V5an1iTvrLIL"></script>
-		<script src="../../js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"></script>
 	</body>
-
 </html>

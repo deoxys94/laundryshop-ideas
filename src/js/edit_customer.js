@@ -1,9 +1,8 @@
 'use strict';
 
-let ipcCustomerIndex = require('electron').ipcRenderer;
-let botonEnviarFormulario = document.getElementById("sendDataButton");
-let botonRegresarPantalla = document.getElementById("returnButton");
-let botonIrLista = document.getElementById("goToListButton");
+let ipcEditCustomer = require('electron').ipcRenderer;
+let botonExitoModal = document.getElementById("buttonCloseModal");
+let modal = document.getElementById("modalDBSuccess");
 
 let nombreCliente = document.getElementById("inputCustomerName");
 let radioClientes;
@@ -20,10 +19,10 @@ document.addEventListener("DOMContentLoaded", () =>
 	let nombreMembresia = document.getElementById("staticMembershpType");
 	let saldoPuntos = document.getElementById("staticBalanceInfo");
 	
-	ipcCustomerIndex.send("editUserWindowLoaded", auxArgs.get("customerID"));
-	ipcCustomerIndex.on("informacionClienteRecibida", (evt, infoCliente) => 
+	ipcEditCustomer.send("editUserWindowLoaded", auxArgs.get("customerID"));
+	ipcEditCustomer.on("informacionClienteRecibida", (evt, infoCliente) => 
 	{
-		nombreCliente.value = infoCliente[0].lastName.toString() + infoCliente[0].firstName.toString();
+		nombreCliente.value = infoCliente[0].customerName.toString();
 		direccionCliente.value = infoCliente[0].customerAddress.toString();
 		telefonoCliente.value = infoCliente[0].phoneNumber.toString();
 		saldoPuntos.value = infoCliente[0].membershipBalance.toString();
@@ -62,46 +61,26 @@ botonActualizarClientes.addEventListener("click", () =>
 	console.log(auxArgs.get("customerID"));
 	console.log(typeof auxArgs.get("customerID"));
 
-    let informacion = [dividir_nombre(nombreCliente.value), radioClientes, direccionCliente.value, telefonoCliente.value, observacionesCliente.value, auxArgs.get("customerID")];
+    let informacion = [nombreCliente.value, radioClientes, direccionCliente.value, telefonoCliente.value, observacionesCliente.value, auxArgs.get("customerID")];
 	
-    ipcCustomerIndex.send("updateCustomerInformation", informacion);
+    ipcEditCustomer.send("updateCustomerInformation", informacion);
 	
-    ipcCustomerIndex.on("customerSucessfullyUpdated", () => 
+    ipcEditCustomer.on("customerSucessfullyUpdated", () => 
     {
-        $("#modalDBSuccess").modal("show");
+		document.getElementById("modalTitle").innerHTML = "Success!";
+		document.getElementById("messageBox").innerHTML = "Customer data successfully saved!!"
+		document.getElementById("buttonReturnClientList").style.visibility = "hidden";
+		document.getElementById("buttonContinueEditing").style.visibility = "hidden";
+		modal.classList.add("is-active");
     });
 	
 });
 
-function dividir_nombre(stringNombre = "stri")
+botonExitoModal.addEventListener("click", () =>  
 {
-    let apellido = "";
-    let nombre = "";
-    stringNombre = stringNombre.replace(/\s/g,'');
-
-    if(stringNombre.length == 2)
-    {
-        apellido = stringNombre.charAt(0);
-        nombre = stringNombre.charAt(1);
-        return [apellido, nombre];
-    }
-
-    if(stringNombre.length == 3)
-    {
-        apellido = stringNombre.charAt(0);
-        nombre = stringNombre.charAt(1) + stringNombre.charAt(2);
-
-        return [apellido, nombre];
-    }
-
-    if(stringNombre.length > 3)
-    {
-        apellido = stringNombre.charAt(0) + stringNombre.charAt(1);
-        nombre = stringNombre.charAt(2) + stringNombre.charAt(3);
-        return [apellido, nombre];
-    }
+	window.location.href = "index.html";
 }
-
+);
 
 function selectRadioGender(stringGender)
 {
@@ -126,14 +105,3 @@ function selectRadioGender(stringGender)
 		return;
 	}
 }
-
-
-botonRegresarPantalla.addEventListener("click", () => 
-{
-	window.history.back();
-});
-
-botonIrLista.addEventListener("click", () => 
-{
-	window.location.href = "index.html";
-});
