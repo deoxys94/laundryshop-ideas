@@ -2,18 +2,18 @@
 
 let ipcCustomerIndex = require('electron').ipcRenderer;
 let comboboxMembresias = document.getElementById("membershipSelector");
-let beneficiosMembresia = [];
 let botonEnviarFormulario = document.getElementById("sendDataButton");
-let llavePrimaria = 0;
 let botonExitoModal = document.getElementById("buttonCloseModal");
 let modal = document.getElementById("modalDBSuccess");
+let beneficiosMembresia = [];
+let llavePrimaria = 0;
 
 document.addEventListener("DOMContentLoaded", () =>
 {
 	ipcCustomerIndex.send("createUserWindowLoaded");
 	ipcCustomerIndex.on("catalogoMembresias", (evt, result) => 
 	{                
-		for (var i = 0; i < result.length;i++)
+		for (let i = 0; i < result.length;i++)
 		{
 			comboboxMembresias.innerHTML += '<option value="'+ result[i].membershipID.toString() +'">'+ result[i].membershipName.toString() +'</option>';
 			beneficiosMembresia[i] = result[i].membershipBenefits.toString();
@@ -60,7 +60,7 @@ botonEnviarFormulario.addEventListener('click', () => {
     //{Validación del nombre del cliente. Si no se provee de un nombre de cliente, se notifica al usuario y se suspende la operación.
     if(!nombreCliente.value)
     {
-		alertasValidacion.innerHTML = `
+		alertasValidacion.innerHTML += `
 			<div class="notification is-danger is-light"><button class="delete"></button>
 				<strong>Holy guacamole!</strong> Please write a name to continue.
 			</div>
@@ -83,15 +83,11 @@ botonEnviarFormulario.addEventListener('click', () => {
         [8] Eliminado o no eliminado (al mometo de crear, siempre debe ser cero)
     */
 
-    let informacion = [llavePrimaria, dividir_nombre(nombreCliente.value), radioClientes, direccionCliente.value, telefonoCliente.value, comboboxMembresias.options[comboboxMembresias.selectedIndex].value, beneficiosMembresia[(comboboxMembresias.options[comboboxMembresias.selectedIndex].value) - 1], observacionesCliente.value, 0];
+    let informacion = [llavePrimaria, nombreCliente.value, radioClientes, direccionCliente.value, telefonoCliente.value, comboboxMembresias.options[comboboxMembresias.selectedIndex].value, beneficiosMembresia[(comboboxMembresias.options[comboboxMembresias.selectedIndex].value) - 1], observacionesCliente.value, 0];
     
 	ipcCustomerIndex.send("customerInformation", informacion);
     ipcCustomerIndex.on("customerSucessfullyCreated", () => 
     {
-		let htmlLista = document.getElementById("searchResultsBox");
-		let tituloModal = document.getElementById("modalTitle");
-		let cuerpoModal = document.getElementById("messageBox");
-		
 		document.getElementById("modalTitle").innerHTML = "Success!";
 		document.getElementById("messageBox").innerHTML = "Customer data successfully saved!!"
 		document.getElementById("buttonReturnClientList").style.visibility = "hidden";
@@ -106,32 +102,3 @@ botonExitoModal.addEventListener("click", () =>
 	window.location.href = "index.html";
 }
 );
-
-function dividir_nombre(stringNombre = "stri")
-{
-    let apellido = "";
-    let nombre = "";
-    stringNombre = stringNombre.replace(/\s/g,'');
-
-    if(stringNombre.length == 2)
-    {
-        apellido = stringNombre.charAt(0);
-        nombre = stringNombre.charAt(1);
-        return [apellido, nombre];
-    }
-
-    if(stringNombre.length == 3)
-    {
-        apellido = stringNombre.charAt(0);
-        nombre = stringNombre.charAt(1) + stringNombre.charAt(2);
-
-        return [apellido, nombre];
-    }
-
-    if(stringNombre.length > 3)
-    {
-        apellido = stringNombre.charAt(0) + stringNombre.charAt(1);
-        nombre = stringNombre.charAt(2) + stringNombre.charAt(3);
-        return [apellido, nombre];
-    }
-}

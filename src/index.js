@@ -4,7 +4,7 @@ const { app, BrowserWindow, Menu} = require('electron');
 const path = require('path');
 let knex = require('knex')({client: 'sqlite3', connection: {filename: "src/datos/msnMessenger.db"}});
 let mainWindow;
-
+let newWindow = null;
 const electron = require('electron'),
 ipcMain = electron.ipcMain;
 
@@ -20,7 +20,19 @@ const createWindow = () =>
     width: 1280,
     height: 720,
 	webPreferences: {
-    nodeIntegration: true
+    allowRunningInsecureContent: false,
+    //contextIsolation: true,
+    enableRemoteModule: false,
+    nativeWindowOpen: false,
+    nodeIntegration: true,
+    nodeIntegrationInWorker: false,
+    nodeIntegrationInSubFrames: false,
+    safeDialogs: true,
+    //sandbox: true,
+    webSecurity: true,
+    webviewTag: false,
+
+    //preload: path.join(__dirname, 'js/preload.js'),
 	}
   });
 
@@ -78,7 +90,11 @@ const createWindow = () =>
 		submenu: 
 		[
 			{
-				label: "About"
+				label: "About",
+				click()
+				{
+					openAbout();
+				}
 			}
 		]
 	}
@@ -117,15 +133,41 @@ app.on('activate', () => {
 */
 
 //{  Código de la ventana principal de la aplicación 
+function openAbout()
+{
+	if (newWindow) 
+	{
+		newWindow.focus();
+		return;
+	}
 
+	newWindow = new BrowserWindow(
+	{
+		height: 700,
+		resizable: false,
+		width: 500,
+		title: 'About',
+		minimizable: false,
+		fullscreenable: false
+	});
+	
+	newWindow.removeMenu();
+
+	newWindow.loadFile(path.join(__dirname, 'views/about.html'));
+
+	newWindow.on('closed', function() 
+	{
+		newWindow = null;
+	});
+}
 //}
 
 //{  codigo de la página principal de clientes
 
 ipcMain.on("customersIndexWindowLoaded", () =>
 {
-	
-	let resultado = knex("customer_list").select("customer_list.customerID", "customer_list.lastName", "customer_list.firstName", "membership_catalogue.membershipName", "customer_list.membershipBalance").join("membership_catalogue", "customer_list.membershipType", "=", "membership_catalogue.membershipID").where("customer_list.deleted", 0);
+	console.log("hola");
+	let resultado = knex("customer_list").select("customer_list.customerID", "customer_list.customerName", "membership_catalogue.membershipName", "customer_list.membershipBalance").join("membership_catalogue", "customer_list.membershipType", "=", "membership_catalogue.membershipID").where("customer_list.deleted", 0);
 	
 	resultado.then(function(rows)
   	{
@@ -143,7 +185,7 @@ ipcMain.on("searchClientName", (event, customerName) =>
 {
 	let resultado = 
 	
-	knex.raw("SELECT customer_list.customerID, customer_list.lastName, customer_list.firstName, membership_catalogue.membershipName, customer_list.membershipBalance FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.lastName LIKE ? OR customer_list.firstName LIKE ? AND customer_list.deleted = 0", [customerName[0], customerName[1]]);
+	knex.raw("SELECT customer_list.customerID, customer_list.customerName, membership_catalogue.membershipName, customer_list.membershipBalance FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.customerName LIKE ? AND customer_list.deleted = 0", [customerName[0]]);
 
 	resultado.then((rows) => 
 	{
@@ -158,7 +200,7 @@ ipcMain.on("searchClientName", (event, customerName) =>
 
 ipcMain.on("searchClientNumber", (event, customerNumber) =>
 {
-	let resultado = knex.raw("SELECT customer_list.customerID, customer_list.lastName, customer_list.firstName, membership_catalogue.membershipName, customer_list.membershipBalance FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.customerID = ? AND customer_list.deleted = 0", customerNumber);
+	let resultado = knex.raw("SELECT customer_list.customerID, customer_list.customerName, membership_catalogue.membershipName, customer_list.membershipBalance FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.customerID = ? AND customer_list.deleted = 0", customerNumber);
 	
 	resultado.then((rows) => 
 	{
@@ -173,7 +215,7 @@ ipcMain.on("searchClientNumber", (event, customerNumber) =>
 
 ipcMain.on("searchClientPhone", (event, customerPhone) =>
 {
-	let resultado = knex.raw("SELECT customer_list.customerID, customer_list.lastName, customer_list.firstName, membership_catalogue.membershipName, customer_list.membershipBalance FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.phoneNumber LIKE ? AND customer_list.deleted = 0", customerPhone);
+	let resultado = knex.raw("SELECT customer_list.customerID, customer_list.customerName, membership_catalogue.membershipName, customer_list.membershipBalance FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.phoneNumber LIKE ? AND customer_list.deleted = 0", customerPhone);
 	
 	resultado.then((rows) => 
 	{
@@ -186,9 +228,9 @@ ipcMain.on("searchClientPhone", (event, customerPhone) =>
 }
 );
 
-ipcMain.on("searchClientRemarks", (event, customerPhone) =>
+ipcMain.on("searchClientRemarks", (event, customerRemarks) =>
 {
-	let resultado = knex.raw("SELECT customer_list.customerID, customer_list.lastName, customer_list.firstName, membership_catalogue.membershipName, customer_list.membershipBalance FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.clientRemarks LIKE ? AND customer_list.deleted = 0", customerPhone);
+	let resultado = knex.raw("SELECT customer_list.customerID, customer_list.customerName, membership_catalogue.membershipName, customer_list.membershipBalance FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.clientRemarks LIKE ? AND customer_list.deleted = 0", customerRemarks);
 	
 	resultado.then((rows) => 
 	{
@@ -266,7 +308,7 @@ ipcMain.on("customerInformation", (event, informacion) =>
 
 ipcMain.on("getCustomerInformation", (evt, customerID) => 
 {
-	let resultado = knex("customer_list").select("customer_list.customerID", "customer_list.lastName", "customer_list.firstName", "customer_list.gender", "customer_list.phoneNumber", "customer_list.customerAddress", "customer_list.dateJoined", "membership_catalogue.membershipName", "customer_list.membershipBalance", "customer_list.clientRemarks").join("membership_catalogue", "customer_list.membershipType", "=",  "membership_catalogue.membershipID").where("customer_list.customerID", "=", [customerID], "AND", "customer_list.deleted", "=", 0);
+	let resultado = knex("customer_list").select("customer_list.customerID", "customer_list.customerName", "customer_list.gender", "customer_list.phoneNumber", "customer_list.customerAddress", "customer_list.dateJoined", "membership_catalogue.membershipName", "customer_list.membershipBalance", "customer_list.clientRemarks").join("membership_catalogue", "customer_list.membershipType", "=",  "membership_catalogue.membershipID").where("customer_list.customerID", "=", [customerID], "AND", "customer_list.deleted", "=", 0);
 	//let resultado = knex.raw("SELECT customer_list.customerID, customer_list.lastName, customer_list.firstName, customer_list.gender, customer_list.phoneNumber, customer_list.customerAddress, customer_list.dateJoined, membership_catalogue.membershipName, customer_list.membershipBalance, customer_list.clientRemarks FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.customerID = ? AND customer_list.deleted = 0", [customerID]);
 	resultado.then((rows) => 
 	{
@@ -282,7 +324,7 @@ ipcMain.on("getCustomerInformation", (evt, customerID) =>
 // Enviar la informacion para editar al cliente (la consulta debe casi exatamente igual a obtener la información)
 ipcMain.on("editUserWindowLoaded", (evt, customerID) => 
 {
-	let resultado = knex.raw("SELECT customer_list.lastName, customer_list.firstName, customer_list.gender, customer_list.phoneNumber, customer_list.customerAddress, customer_list.dateJoined, membership_catalogue.membershipName, customer_list.membershipBalance, customer_list.clientRemarks FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.customerID = ? AND customer_list.deleted = 0", [customerID]);
+	let resultado = knex.raw("SELECT customer_list.customerName, customer_list.gender, customer_list.phoneNumber, customer_list.customerAddress, customer_list.dateJoined, membership_catalogue.membershipName, customer_list.membershipBalance, customer_list.clientRemarks FROM customer_list JOIN membership_catalogue ON customer_list.membershipType = membership_catalogue.membershipID WHERE customer_list.customerID = ? AND customer_list.deleted = 0", [customerID]);
 
 	resultado.then((rows) => 
 	{
@@ -303,7 +345,7 @@ ipcMain.on("updateCustomerInformation", (event, informacion) =>
 	let today = new Date();
 	let d = (today.getMonth()+1)+'/'+today.getDate()+'/'+today.getFullYear();
 
-	let insercion = knex.raw("UPDATE customer_list SET lastName = ?, firstName = ?, gender = ?, phoneNumber = ?, customerAddress = ?, clientRemarks = ? WHERE customerID = ? AND deleted = 0", [informacion[0][0], informacion[0][1], informacion[1], informacion[3], informacion[2], informacion[4], parseInt(informacion[5])]);
+	let insercion = knex.raw("UPDATE customer_list SET customerName = ?, gender = ?, phoneNumber = ?, customerAddress = ?, clientRemarks = ? WHERE customerID = ? AND deleted = 0", [informacion[0], informacion[1], informacion[3], informacion[2], informacion[4], parseInt(informacion[5])]);
 	
 	insercion.then(mainWindow.webContents.send("customerSucessfullyUpdated")).catch((err) => 
 	{ 
@@ -312,5 +354,48 @@ ipcMain.on("updateCustomerInformation", (event, informacion) =>
 	});
 
 });
+
+//}
+
+//{ Poner mas saldo al cliente
+ipcMain.on("getTopUpInformation", (event, customerID) => 
+{
+	let obtenerInformacion = knex("customer_list").select("customerID", "customerName", "membershipBalance").where("customerID", "=", customerID, "AND", "deleted", "=", 0);
+	
+	let resultado = knex.select("membershipID", "membershipName", "membershipBenefits").from("membership_catalogue").where("deleted", 0);
+	
+	resultado.then((rows) => 
+	{
+		mainWindow.webContents.send("catalogoMembresias", rows);
+	}).catch((err) => 
+	{
+		console.error(err);
+		throw err;
+	});
+	
+	obtenerInformacion.then((rows) => 
+	{
+		mainWindow.webContents.send("informacionRecargaRecibida", rows);
+	}).catch((err) => 
+	{ 
+		console.log(err); 
+		throw err; 
+	});
+});
+
+ipcMain.on("topUpClient", (event, informacion) => 
+{
+    let insercion = knex.raw("UPDATE customer_list SET membershipType = ?, membershipBalance = ? WHERE customer_list.customerID = ? and customer_list.deleted = 0", [informacion[0], informacion[1], informacion[2]]);
+    insercion.then(mainWindow.webContents.send("topUpSucessful")).catch((err) => 
+	{
+		console.error(err);
+		throw err;
+	}).finally(() => 
+	{
+		insercion.destroy();
+    });
+	
+}
+);
 
 //}

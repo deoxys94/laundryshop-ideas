@@ -39,7 +39,7 @@
 					<!--Botones al principio de la barra-->
 					<div class="navbar-start">
 						<a class="navbar-item" href="index.html">
-							<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 							  <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.646 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L6.207 7.5H11a.5.5 0 0 1 0 1H6.207l2.147 2.146z"/>
 							</svg>
 							&nbsp;Return
@@ -58,83 +58,77 @@
 			</nav>
 		</header>
 		<!-- page content -->
-		
-		<section class="section" id="pageContent">
-			
-			<div class="content">
-				<div id="validationWarnings">
-				</div>
-				
+		<p id="validationWarnings"></p>
+		<section class="section">
+			<div id="pageContent" class="content">
 				<h2>Add new customer</h2>
-			</div>
+				<div class="field is-horizontal">
+					
+						<label class="label" for="inputCustomerName">Name&nbsp;</label>
+					
+					<div class="field-body">
+						<div class="field">
+							<p class="control is-expanded">
+								<input class="input" type="text" id="inputCustomerName">
+							</p>
+						</div>
+						
+						<div class="field">
+							<p class="control is-expanded">
+								<label class="label" for="tratamientoCliente1">
+									<input type="radio" id="tratamientoCliente1" name="tratamientoCliente" value="小姐">
+									小姐
+								</label>
+
+								<label class="label" for="tratamientoCliente2">
+									<input type="radio" id="tratamientoCliente2" name="tratamientoCliente" value="先生">
+									先生
+								</label>
+
+								<label class="label" for="tratamientoCliente3">
+									<input type="radio" id="tratamientoCliente3" name="tratamientoCliente" value="-" checked>
+									-
+								</label>
+							</p>
+						</div>
+						
+					</div>
+				</div>
 			
-			<div class="field is-horizontal">
-				<div class="field-body">
-					<label for="inputCustomerName">Name</label>
-					<div class="field">
-						<p class="control is-expanded">
-							<input class="input" type="text" id="inputCustomerName">
-						</p>
+				<div class="field">
+					<label class="label" for="customerAddress">Address</label>
+					<div class="control">
+						<input type="text" class="input" id="customerAddress" name="direccionCliente">
 					</div>
 					
-					<div class="field">
-						<p class="control is-expanded">
-							<label class="custom-control-label" for="tratamientoCliente1">
-								<input type="radio" id="tratamientoCliente1" name="tratamientoCliente" value="小姐">
-								小姐
-							</label>
+					<label class="label" for="customerPhone">Phone Number</label>
+					<div class="control">
+						<input type="tel" class="input" id="customerPhone" name="telefonoCliente">
+					</div>
 
-							<label class="custom-control-label" for="tratamientoCliente2">
-								<input type="radio" id="tratamientoCliente2" name="tratamientoCliente" value="先生">
-								先生
-							</label>
-
-							<label class="custom-control-label" for="tratamientoCliente3">
-								<input type="radio" id="tratamientoCliente3" name="tratamientoCliente" value="-" checked>
-								-
-							</label>
-						</p>
+					<label class="label" for="membershipSelector">Select a membership type</label>
+					<div class="control">
+						<div class="select">
+							<select id="membershipSelector" name="tipoMembresia">
+							</select>
+						</div>
 					</div>
 					
-				</div>
-			</div>
-			
-			<div class="field">
-				<label for="customerAddress">Address</label>
-				<div class="control">
-					<input type="text" class="input" id="customerAddress" name="direccionCliente">
-				</div>
-				
-				<label for="customerPhone">Phone Number</label>
-				<div class="control">
-					<input type="tel" class="input" id="customerPhone" name="telefonoCliente">
-				</div>
-
-				<label for="membershipSelector">Select a membership type</label>
-				<div class="control">
-					<div class="select">
-						<select id="membershipSelector" name="tipoMembresia">
-						</select>
+					<label class="label" for="benefitsShow" class="col-sm-2 col-form-label">eCash</label>
+					<div class="control">
+						<input type="text" readonly class="input is-static" id="benefitsShow" value="0">
 					</div>
 				</div>
 				
-				<label for="benefitsShow" class="col-sm-2 col-form-label">eCash</label>
-				<div class="control">
-					<input type="text" readonly class="input" id="benefitsShow" value="0">
+				<div class="field">
+					<label class="label" for="customerNotesField">Customer remarks</label>
+					<div class="control">
+						<textarea class="textarea" id="customerNotesField" rows="3"></textarea>
+					</div>
 				</div>
 			</div>
-			
-			<div class="field">
-				<label for="customerNotesField">Customer remarks</label>
-				<div class="control">
-					<textarea class="textarea" id="customerNotesField" rows="3"></textarea>
-				</div>
-			</div>
-
 			<button class="button is-link" id="sendDataButton">Create customer</button>
 		</section>
-		
-		<button class="button is-link" id="fireModal">Fire modal</button>
 		<!-- page content -->
 
 		<!-- Modal para confirmar la entrada de datos a la BBDD --> 

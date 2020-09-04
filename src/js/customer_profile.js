@@ -2,26 +2,29 @@
 
 let ipcCustomerProfile = require('electron').ipcRenderer;
 let goBackNavBarButton = document.getElementById("botonRegresarAnterior");
-let editInfoNavbarButton = document.getElementById("editCustomerButton");
 let deleteUserNavbarButton = document.getElementById("deleteUserButton");
+let dontDeleteUserButton = document.getElementById("buttonGoBack");
 
 document.addEventListener("DOMContentLoaded", () =>
 {
     let auxURL = new URL(document.URL);
     let auxArgs = new URLSearchParams(auxURL.search);
-    let htmlPerfil = document.getElementById("contenidoPrincipal");
+    let htmlPerfil = document.getElementById("profileInformation");
 
     if(!auxArgs.get("customerID"))
     {
         htmlPerfil.innerHTML = `
-        <div class="alert alert-warning" role="alert">
-            <strong>Holy guacamole!</strong> Something went wrong. Go back and try it again.
-            <button type="button" class="btn btn-outline-dark" id="goBackAlertButton">
-                <span>Go back</span>
-            </button>
-        </div>`;
+			<article class="message is-link">
+				<div class="message-header">
+					<p>System error</p>
+				</div>
+				<div class="message-body">
+					Something went wrong. Please go back and try again.
+				</div>
+			</article>
+		`;
         return;
-    }
+	}
 	
     ipcCustomerProfile.send("getCustomerInformation", auxArgs.get("customerID"));
     ipcCustomerProfile.on("informacionClienteRecibida", (evt, results) => 
@@ -39,30 +42,38 @@ document.addEventListener("DOMContentLoaded", () =>
         }
 
         htmlPerfil.innerHTML = `
-        <h2>${results[0].lastName.toString()}${results[0].firstName.toString()} - ${results[0].gender.toString()}</h2>
-        
-        <ul class="list-group list-group-horizontal-xl">
-            <li class="list-group-item list-group-item-light flex-fill"><strong>Member since</strong> ${results[0].dateJoined.toString()}</li>
-            <li class="list-group-item list-group-item-light flex-fill"><strong>Client number:</strong> ${results[0].customerID.toString()}</li>
-        </ul>
-
-        <ul class="list-group">
-            <li class="list-group-item list-group-item-info">Address</li>
-            <li class="list-group-item">${results[0].customerAddress.toString()}</li>
-            <li class="list-group-item list-group-item-info">Phone Number</li>
-            <li class="list-group-item">${results[0].phoneNumber.toString()}</li>
-            <li class="list-group-item list-group-item-info">Membership type</li>
-            <li class="list-group-item">${results[0].membershipName.toString()}</li>
-            <li class="list-group-item list-group-item-info">Remaining balance</li>
-            <li class="list-group-item">${results[0].membershipBalance.toString()}</li>
-            <li class="list-group-item list-group-item-info">Customer's remarks</li>
-            <li class="list-group-item">${results[0].clientRemarks.toString()}</li>
-        </ul><br>
-		`;
+				<div class="tile is-4 is-vertical is-parent">
+					<div class="tile is-child box">
+					<p class="title">${results[0].customerName.toString()}</p>
+					<p class="title">${results[0].gender.toString()}</p>
+					</div>
+					<div class="tile is-child box">
+					<p><strong>Client Number</strong></p>
+					<p>${results[0].customerID.toString()}</p>
+					<p><strong>Client since</strong></p>
+					<p>${results[0].dateJoined.toString()}</p>
+					</div>
+				</div>
+				<div class="tile is-parent">
+					<div class="tile is-child box">
+					<p><strong>Address</strong></p>
+					<p>${results[0].customerAddress.toString()}</p>
+					<p><strong>Phone number</strong></p>
+					<p>${results[0].phoneNumber.toString()}</p>
+					<p><strong>Membership Type</strong></p>
+					<p>${results[0].membershipName.toString()}</p>
+					<p><strong>Membership balance</strong></p>
+					<p>${results[0].membershipBalance.toString()}</p>
+					<p><strong>Remarks</strong></p>
+					<p>${results[0].clientRemarks.toString()}</p>
+					</div>
+				</div>`;
 	
-		editInfoNavbarButton.setAttribute("href", `editCustomer.html?customerID=${results[0].customerID.toString()}`);
+		document.getElementById("editCustomerButton").setAttribute("href", `editCustomer.html?customerID=${results[0].customerID.toString()}`);
+		document.getElementById("topUpNavbar").setAttribute("href", `topUp.html?customerID=${results[0].customerID.toString()}`);
     });
-});
+}
+);
 
 goBackNavBarButton.addEventListener("click", () => 
 {
@@ -72,6 +83,11 @@ goBackNavBarButton.addEventListener("click", () =>
 
 deleteUserNavbarButton.addEventListener("click", () => 
 {
-	
+	document.getElementById("modalDeleteUser").classList.add("is-active");
 }
 );
+
+dontDeleteUserButton.addEventListener("click", () =>
+{
+	document.getElementById("modalDeleteUser").classList.remove("is-active");
+});

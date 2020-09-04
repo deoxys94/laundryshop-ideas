@@ -3,6 +3,8 @@ node_modules/
 
 src/datos/msnMessenger.db
 
+src/datos/bak.db
+
 src/js/subresource_calculator.sh
 
 .codelite/
